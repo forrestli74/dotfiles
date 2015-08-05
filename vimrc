@@ -68,6 +68,7 @@ set nowritebackup
 set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
 set history=50
 set incsearch     " do incremental searching
+set smartcase
 
 " TODO ???
 set wildmode=list:longest,list:full
@@ -77,6 +78,20 @@ set wildmode=list:longest,list:full
 inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
 " Add Shift+Tab map for tab complete in insert mode
 inoremap <S-Tab> <c-n>
+" Open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" Autocomplete with dictionary words when spell check is on
+set complete+=kspell
+" Always use vertical diffs
+set diffopt+=vertical
+set shell=zsh
+
+" Set spellfile to location that is guaranteed to exist, can be symlinked to
+" Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
+set spellfile=$HOME/.vim-spell-en.utf-8.add
+
 
 
 """"""""""""""" FILETYPE
@@ -106,6 +121,15 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+
+
+
+""""" Syntastic
+" configure syntastic syntax checking to check on open as well as save
+let g:syntastic_check_on_open=1
+let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
+let g:syntastic_eruby_ruby_quiet_messages =
+    \ {"regex": "possibly useless use of a variable in void context"}
 
 """"""""""""""" IMPORT
 call s:source("~/.vimrc.bundles")
@@ -146,33 +170,13 @@ endif
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
-""""""""""""""" THOUGHTBOT
-
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
 
-" Open new split panes to right and bottom, which feels more natural
-set splitbelow
-set splitright
 
-" configure syntastic syntax checking to check on open as well as save
-let g:syntastic_check_on_open=1
-let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
-let g:syntastic_eruby_ruby_quiet_messages =
-    \ {"regex": "possibly useless use of a variable in void context"}
-
-" Set spellfile to location that is guaranteed to exist, can be symlinked to
-" Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.
-set spellfile=$HOME/.vim-spell-en.utf-8.add
-
-" Autocomplete with dictionary words when spell check is on
-set complete+=kspell
-
-" Always use vertical diffs
-set diffopt+=vertical
+""""""""""""""" END
 
 " Local config
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif
-set shell=zsh
