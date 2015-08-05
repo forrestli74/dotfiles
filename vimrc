@@ -6,6 +6,15 @@ function! s:source (path)
   endif
 endfunction
 
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+
 """"""""""""""" CONTROL
 " Leader
 let mapleader = " "
@@ -48,6 +57,10 @@ set colorcolumn=+1
 set number
 set numberwidth=3
 
+" Display extra whitespace
+set list listchars=tab:»·,trail:·,nbsp:·
+
+
 
 """"""""""""""" SETTING
 set nobackup
@@ -56,20 +69,57 @@ set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitigno
 set history=50
 set incsearch     " do incremental searching
 
+" TODO ???
+set wildmode=list:longest,list:full
+" Tab completion
+" will insert tab at beginning of line,
+" will use completion if not at beginning
+inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
+" Add Shift+Tab map for tab complete in insert mode
+inoremap <S-Tab> <c-n>
+
+
+""""""""""""""" FILETYPE
+filetype plugin indent on
+
+""""" Markdown
+autocmd BufRead,BufNewFile *.md set filetype=markdown
+autocmd FileType markdown setlocal spell
+autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+
+""""" Git
+" Automatically wrap at 72 characters and spell check git commit messages
+autocmd FileType gitcommit setlocal textwidth=72
+autocmd FileType gitcommit setlocal spell
+
+""""" WEB
+" Allow stylesheets to autocomplete hyphenated words
+autocmd FileType css,scss,sass setlocal iskeyword+=-
+
+""""""""""""""" PLUGIN
+""""" CtrlP
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+  " ag is fast enough that CtrlP doesn't need to cache
+  let g:ctrlp_use_caching = 0
+endif
 
 """"""""""""""" IMPORT
 call s:source("~/.vimrc.bundles")
 call s:source("~/.vimrc.local")
 
 
-""""""""""""""" THOUGHTBOT
+""""""""""""""" THOUGHTBOT TODO ???
 
 " Load matchit.vim, but only if the user hasn't installed a newer version.
 if !exists('g:loaded_matchit') && findfile('plugin/matchit.vim', &rtp) ==# ''
   runtime! macros/matchit.vim
 endif
 
-filetype plugin indent on
+
 
 augroup vimrcEx
   autocmd!
@@ -84,62 +134,19 @@ augroup vimrcEx
 
   " Set syntax highlighting for specific file types
   autocmd BufRead,BufNewFile Appraisals set filetype=ruby
-  autocmd BufRead,BufNewFile *.md set filetype=markdown
 
-  " Enable spellchecking for Markdown
-  autocmd FileType markdown setlocal spell
-
-  " Automatically wrap at 80 characters for Markdown
-  autocmd BufRead,BufNewFile *.md setlocal textwidth=80
-
-  " Automatically wrap at 72 characters and spell check git commit messages
-  autocmd FileType gitcommit setlocal textwidth=72
-  autocmd FileType gitcommit setlocal spell
-
-  " Allow stylesheets to autocomplete hyphenated words
-  autocmd FileType css,scss,sass setlocal iskeyword+=-
 augroup END
 
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
-
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
   " Use Ag over Grep
   set grepprg=ag\ --nogroup\ --nocolor
-
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-  let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-
-  " ag is fast enough that CtrlP doesn't need to cache
-  let g:ctrlp_use_caching = 0
 endif
 
-" Tab completion
-" will insert tab at beginning of line,
-" will use completion if not at beginning
-set wildmode=list:longest,list:full
-function! InsertTabWrapper()
-    let col = col('.') - 1
-    if !col || getline('.')[col - 1] !~ '\k'
-        return "\<tab>"
-    else
-        return "\<c-p>"
-    endif
-endfunction
-inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
-inoremap <S-Tab> <c-n>
 
 " Exclude Javascript files in :Rtags via rails.vim due to warnings when parsing
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 
-" vim-rspec mappings
-nnoremap <Leader>t :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>l :call RunLastSpec()<CR>
-
-" Run commands that require an interactive shell
-nnoremap <Leader>r :RunInInteractiveShell<space>
+""""""""""""""" THOUGHTBOT
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
@@ -168,3 +175,4 @@ set diffopt+=vertical
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif
+set shell=zsh
