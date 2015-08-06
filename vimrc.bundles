@@ -43,6 +43,8 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'vim-scripts/tComment'
 Plug 'scrooloose/nerdtree'
 Plug 'rking/ag.vim'
+Plug 'bling/vim-airline'
+Plug 'altercation/vim-colors-solarized'
 
 if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local

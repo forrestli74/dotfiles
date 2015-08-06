@@ -15,6 +15,9 @@
       endif
   endfunction
 
+""""""""""""""" IMPORT
+  call s:source("~/.vimrc.bundles")
+
 """"""""""""""" CONTROL
   " Leader
   let mapleader = " "
@@ -31,23 +34,23 @@
   inoremap jk <esc>
   map ; :!
 
+  " spelling
   map <leader>sn ]s
   map <leader>sN [s
   map <leader>sa zg
   map <leader>s? z=
 
+
 """"""""""""""" COMMAND
   " Index ctags from any project, including those outside Rails
   map <Leader>ct :!ctags -R .<CR>
 
-""""""""""""""" VISUAL SETTING
+""""""""""""""" VISUAL
   set hls
   set backspace=2   " Backspace deletes like most programs in insert mode
   set ruler         " show the cursor position all the time
   set showcmd       " display incomplete commands
   set laststatus=2  " Always display the status line
-  set autowrite     " Automatically :write before running commands
-  syntax on         " Switch syntax highlighting on
 
   " Softtabs, 2 spaces
   set tabstop=2
@@ -60,16 +63,21 @@
   set colorcolumn=+1
 
   " Numbers
-  set number
   set relativenumber
   set numberwidth=1
 
   " Display extra whitespace
   set list listchars=tab:»·,trail:·,nbsp:·
 
-  colorscheme koehler
+  syntax on
+  let g:solarized_termcolors=256
+  set t_Co=256
+  set background=dark
+  colorscheme solarized
+
 
 """"""""""""""" SETTING
+  set autowrite     " Automatically :write before running commands
   set nobackup
   set nowritebackup
   set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
@@ -102,6 +110,10 @@
   set foldmethod=indent
   set scrolloff=3
 
+  set undofile
+  set undodir=~/.vimundo
+
+
 """"""""""""""" FILETYPE
   filetype plugin indent on
   """"" Markdown
@@ -130,6 +142,8 @@
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
   endif
+  """"" Ag
+  let g:ag_working_path_mode="r"
 
 
 
@@ -140,9 +154,6 @@
   let g:syntastic_eruby_ruby_quiet_messages =
       \ {"regex": "possibly useless use of a variable in void context"}
 
-""""""""""""""" IMPORT
-  call s:source("~/.vimrc.bundles")
-  call s:source("~/.vimrc.local")
 
 """"""""""""""" THOUGHTBOT TODO ???
   " Load matchit.vim, but only if the user hasn't installed a newer version.
