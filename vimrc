@@ -40,10 +40,15 @@
   map <leader>sa zg
   map <leader>s? z=
 
-
-""""""""""""""" COMMAND
   " Index ctags from any project, including those outside Rails
   map <Leader>ct :!ctags -R .<CR>
+
+  nnoremap <Leader>r :RunInInteractiveShell<space>
+  " RSpec.vim mappings
+  map <Leader>tf :call RunCurrentSpecFile()<CR>
+  map <Leader>tn :call RunNearestSpec()<CR>
+  map <Leader>tl :call RunLastSpec()<CR>
+  map <Leader>ta :call RunAllSpecs()<CR>
 
 """"""""""""""" VISUAL
   set hls
