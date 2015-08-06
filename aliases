@@ -1,6 +1,7 @@
 # Unix
 alias ll="ls -al"
 alias mkdir="mkdir -p"
+alias be=bundle exec
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'

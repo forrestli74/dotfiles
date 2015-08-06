@@ -97,5 +97,9 @@ _load_settings() {
 }
 _load_settings "$HOME/.zsh/configs"
 
+# nvm
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
