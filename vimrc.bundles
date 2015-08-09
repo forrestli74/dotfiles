@@ -48,6 +48,7 @@ Plug 'rking/ag.vim'
 Plug 'bling/vim-airline'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tomasr/molokai'
+Plug 'jiangmiao/auto-pairs'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))
