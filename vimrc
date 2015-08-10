@@ -53,7 +53,8 @@
   map j gj
   map k gk
 
-  vnoremap <silent><C-c> "zy:call system("xclip -selection clipboard",@z)<CR>
+  vnoremap <silent><C-c> "zy:call system("pbcopy",@z)<CR>
+
 
 """"""""""""""" VISUAL
   set hls
@@ -118,7 +119,7 @@
   set spellfile=$HOME/.vim-spell-en.utf-8.add
 
   set foldmethod=indent
-  set foldlevel=100
+  set foldlevel=1000
   set scrolloff=3
 
   set undofile
@@ -157,6 +158,7 @@
   endif
   """"" Ag
   let g:ag_working_path_mode="r"
+  let g:rspec_command = "!bundle exec rspec {spec}"
 
   let g:rspec_command = "!bundle exec rspec {spec}"
 
