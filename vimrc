@@ -49,6 +49,12 @@
   map <Leader>tl :call RunLastSpec()<CR>
   map <Leader>ta :call RunAllSpecs()<CR>
 
+  map 0 ^
+  map j gj
+  map k gk
+
+  vnoremap <silent><C-c> "zy:call system("xclip -selection clipboard",@z)<CR>
+
 """"""""""""""" VISUAL
   set hls
   set backspace=2   " Backspace deletes like most programs in insert mode
@@ -115,6 +121,8 @@
 
   set undofile
   set undodir=~/.vimundo
+
+  set mouse=a
 
 
 """"""""""""""" FILETYPE

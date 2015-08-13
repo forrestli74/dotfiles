@@ -1,6 +1,8 @@
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+if [[ -d $HOME/.linuxbrew ]]; then
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
+  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+fi
 
 # modify the prompt to contain git branch name if applicable
 git_prompt_info() {
@@ -65,6 +67,11 @@ bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
 # aliases
 [[ -f ~/.aliases ]] && source ~/.aliases
 
+if hash xclip; then
+  alias pbcopy='xclip -selection clipboard'
+  alias pbpaste='xclip -selection clipboard -o'
+fi
+
 # extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
 # these are loaded first, second, and third, respectively.
 _load_settings() {
@@ -103,6 +110,7 @@ _load_settings "$HOME/.zsh/configs"
 
 # nvm
 export NVM_DIR=~/.nvm
+# TODO slowest
 source $(brew --prefix nvm)/nvm.sh
 
 # Local config
