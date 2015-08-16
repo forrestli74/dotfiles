@@ -156,7 +156,7 @@
   """"" Ag
   let g:ag_working_path_mode="r"
 
-
+  let g:rspec_command = "!bundle exec rspec {spec}"
 
   """"" Syntastic
   " configure syntastic syntax checking to check on open as well as save
