@@ -4,15 +4,44 @@ if [[ -d $HOME/.linuxbrew ]]; then
   export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 fi
 
-# modify the prompt to contain git branch name if applicable
-git_prompt_info() {
+git_status() {
+  # check if we're in a git repo
+  command git rev-parse --is-inside-work-tree &>/dev/null || return
+
   current_branch=$(git current-branch 2> /dev/null)
-  if [[ -n $current_branch ]]; then
-    echo " %{$fg_bold[green]%}$current_branch%{$reset_color%}"
+  command git diff --quiet --ignore-submodules HEAD &>/dev/null;
+  if [[ $? -eq 1 ]]; then
+    color="red"
+    sym="✗"
+  elif [[ $(git cherry -v @{upstream} 2>/dev/null) != "" ]]
+  then
+    color="magenta"
+    sym="☁"
+  else
+    color="green"
+    sym="✔"
+  fi
+  echo "%{$fg_bold[$color]%}$sym $current_branch%{$reset_color%}"
+}
+
+# indicate a job (for example, vim) has been backgrounded
+suspended_jobs() {
+  sj=$(jobs 2>/dev/null | awk 'END {print $4}')
+  if [[ $sj != "" ]]; then
+    echo " %F{yellow}[$sj]%f"
   fi
 }
+
 setopt promptsubst
-export PS1='${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%c%{$reset_color%}$(git_prompt_info) %# '
+#export PS1=$'${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info)\n%# '
+precmd() {
+  print -P '%{$fg_bold[blue]%}%~%{$reset_color%}'
+}
+{
+  post_fix='%(?.%{$fg_bold[green]%}.%{$fg_bold[red]%})❯%{$reset_color%} '
+  export PROMPT=$post_fix
+}
+export RPROMPT='`git_status``suspended_jobs`'
 
 # load our own completion functions
 fpath=(~/.zsh/completion /usr/local/share/zsh/site-functions $fpath)
