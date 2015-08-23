@@ -82,7 +82,7 @@
   syntax on
   set t_Co=256
   set background=dark
-  colorscheme molokai
+  colorscheme solarized
 
 
 """"""""""""""" SETTING
@@ -117,6 +117,7 @@
   set spellfile=$HOME/.vim-spell-en.utf-8.add
 
   set foldmethod=indent
+  set foldlevel=100
   set scrolloff=3
 
   set undofile
