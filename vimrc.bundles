@@ -51,6 +51,7 @@ Plug 'tomasr/molokai'
 Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 Plug 'pangloss/vim-javascript'
+Plug 'kchmck/vim-coffee-script'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))

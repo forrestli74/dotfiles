@@ -61,6 +61,7 @@
   set ruler         " show the cursor position all the time
   set showcmd       " display incomplete commands
   set laststatus=2  " Always display the status line
+  set cursorline
 
   " Softtabs, 2 spaces
   set tabstop=2
@@ -82,7 +83,7 @@
   syntax on
   set t_Co=256
   set background=dark
-  colorscheme solarized
+  colorscheme koehler
 
 
 """"""""""""""" SETTING
