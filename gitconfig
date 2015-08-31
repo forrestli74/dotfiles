@@ -11,6 +11,8 @@
   ci = commit -v
   co = checkout
   st = status
+  ll = log --all --pretty='format:%d %Cgreen%h%Creset %an - %s' --graph
+  continue = rebase --continue
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
