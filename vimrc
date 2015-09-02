@@ -32,7 +32,7 @@
   nnoremap <leader><leader> <c-^>
 
   inoremap jk <esc>
-  map ; :!
+
   " spelling
   map <leader>sn ]s
   map <leader>sN [s
