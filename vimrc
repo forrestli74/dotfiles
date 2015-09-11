@@ -50,10 +50,13 @@
   map <Leader>ta :call RunAllSpecs()<CR>
 
   map 0 ^
-  map j gj
-  map k gk
+  " map j gj
+  " map k gk
 
   vnoremap <silent><C-c> "zy:call system("pbcopy",@z)<CR>
+
+  " Expand `%%` to the path of directory of the current file
+  cnoremap %% <c-r>=expand("%:p:h")<cr>/
 
 
 """"""""""""""" VISUAL
@@ -84,7 +87,7 @@
   syntax on
   set t_Co=256
   set background=dark
-  colorscheme koehler
+  colorscheme solarized
 
 
 """"""""""""""" SETTING
