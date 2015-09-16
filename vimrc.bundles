@@ -27,7 +27,6 @@ com! -nargs=+  -bar Bundle call VundleToPlug("Bundle", <args>)
 call plug#begin('~/.vim/bundle')
 
 " Define bundles via Github repos
-Plug 'christoomey/vim-run-interactive'
 Plug 'thoughtbot/vim-rspec'
 Plug 'kchmck/vim-coffee-script'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -48,7 +47,6 @@ Plug 'scrooloose/nerdtree'
 Plug 'rking/ag.vim'
 Plug 'bling/vim-airline'
 Plug 'altercation/vim-colors-solarized'
-Plug 'jiangmiao/auto-pairs'
 Plug 'Yggdroot/indentLine'
 Plug 'pangloss/vim-javascript'
 Plug 'kchmck/vim-coffee-script'

@@ -28,9 +28,6 @@
   nnoremap <C-h> <C-w>h
   nnoremap <C-l> <C-w>l
 
-  " Switch between the last two files
-  nnoremap <leader><leader> <c-^>
-
   inoremap jk <esc>
 
   " spelling
@@ -42,7 +39,6 @@
   " Index ctags from any project, including those outside Rails
   map <Leader>ct :!ctags -R .<CR>
 
-  nnoremap <Leader>r :RunInInteractiveShell<space>
   " RSpec.vim mappings
   map <Leader>tf :call RunCurrentSpecFile()<CR>
   map <Leader>tn :call RunNearestSpec()<CR>
@@ -67,6 +63,8 @@
   set laststatus=2  " Always display the status line
   set cursorline
 
+  set lazyredraw
+
   " Softtabs, 2 spaces
   set tabstop=2
   set shiftwidth=2
@@ -84,7 +82,7 @@
   " Display extra whitespace
   set list listchars=tab:»·,trail:·,nbsp:·
 
-  syntax on
+  " syntax on
   set t_Co=256
   set background=dark
   colorscheme solarized
@@ -98,8 +96,8 @@
   set history=50
   set incsearch     " do incremental searching
   set smartcase
+  set noerrorbells
 
-  " TODO ???
   set wildmode=list:longest,list:full
   " Tab completion
   " will insert tab at beginning of line,
