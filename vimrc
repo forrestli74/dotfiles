@@ -15,6 +15,21 @@
       endif
   endfunction
 
+  set foldtext=NeatFoldText()
+
+  function! NeatFoldText()
+    let line = substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g')
+    let lines_count = v:foldend - v:foldstart + 1
+    let lines_count_text = ' ' . printf("%s", lines_count . ' lines') . ' '
+    let foldchar = matchstr(&fillchars, 'fold:\zs.')
+    let foldchar = ' '
+    let foldtextstart = strpart('+' . repeat('>', v:foldlevel*2) . ' ' . line . ' <<<', 0, (winwidth(0)*2)/3) . ' #'
+    let foldtextend = lines_count_text
+    let foldtextlength = strlen(foldtextstart . foldtextend) + &foldcolumn + 3
+    return foldtextstart . repeat(foldchar, winwidth(0)-foldtextlength) . foldtextend
+  endfunction
+
+
 """"""""""""""" IMPORT
   call s:source("~/.vimrc.bundles")
 
@@ -86,6 +101,8 @@
   set background=dark
   colorscheme solarized
 
+  hi Folded cterm=bold
+
 
 """"""""""""""" SETTING
   set autowrite     " Automatically :write before running commands
@@ -119,7 +136,7 @@
   set spellfile=$HOME/.vim-spell-en.utf-8.add
 
   set foldmethod=indent
-  set foldlevel=1000
+  set foldlevel=100
   set scrolloff=3
 
   set undofile
@@ -143,6 +160,7 @@
   """"" WEB
   " Allow stylesheets to autocomplete hyphenated words
   autocmd FileType css,scss,sass setlocal iskeyword+=-
+
 
 """"""""""""""" PLUGIN
   """"" NerdTree
