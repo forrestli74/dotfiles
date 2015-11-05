@@ -2,7 +2,6 @@
 alias ll="ls -al"
 alias mkdir="mkdir -p"
 alias be="bundle exec"
-alias g="git"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
