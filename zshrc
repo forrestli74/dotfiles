@@ -10,10 +10,16 @@ git_status() {
 
   current_branch=$(git current-branch 2> /dev/null)
   command git diff --quiet --ignore-submodules HEAD &>/dev/null;
-  if [[ $? -eq 1 ]]; then
+  all_diff=$?
+  command git diff --quiet --ignore-submodules &>/dev/null;
+  uncached_diff=$?
+  if [[ $uncached_diff -eq 1 ]]; then
     color="red"
     sym="✗"
-  elif [[ $(git cherry -v @{upstream} 2>/dev/null) != "" ]]
+  elif [[ $all_diff -eq 1 ]]; then
+    color="blue"
+    sym="✗"
+  elif [[ $(git cherry -v 2>/dev/null) != "" ]]
   then
     color="magenta"
     sym="☁"
@@ -21,7 +27,7 @@ git_status() {
     color="green"
     sym="✔"
   fi
-  echo "%{$fg_bold[$color]%}$sym $current_branch%{$reset_color%}"
+  echo "%{$fg[$color]%}$sym $current_branch%{$reset_color%}"
 }
 
 # indicate a job (for example, vim) has been backgrounded
