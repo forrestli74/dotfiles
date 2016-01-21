@@ -52,6 +52,7 @@ Plug 'kchmck/vim-coffee-script'
 Plug 'juvenn/mustache.vim'
 Plug 'nelstrom/vim-qargs'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-surround'
 
 if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local

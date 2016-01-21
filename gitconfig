@@ -14,7 +14,6 @@
   co = checkout
   continue = rebase --continue
   cia = commit -a --amend --no-edit
-  # fix = !sh -c 'confirm "Sure to amend and push -f? [yN]" && git commit --amend -a --no-edit && git push -f'
   ll = log --all --pretty='format:%d %Cgreen%h%Creset %an - %s' --graph
   st = status
 [core]
