@@ -13,7 +13,7 @@
   ci = commit -v
   co = checkout
   continue = rebase --continue
-  cia = commit -a --amend --no-edit
+  cia = commit -a --amend --no-edit --reset-author
   ll = log --all --pretty='format:%d %Cgreen%h%Creset %an - %s' --graph
   st = status
 [core]

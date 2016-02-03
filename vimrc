@@ -109,7 +109,7 @@
   set nobackup
   set nowritebackup
   set noswapfile    " http://robots.thoughtbot.com/post/18739402579/global-gitignore#comment-458413287
-  set history=50
+  set history=5000
   set incsearch     " do incremental searching
   set smartcase
   set noerrorbells
