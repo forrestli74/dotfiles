@@ -15,7 +15,32 @@
       endif
   endfunction
 
-  set foldtext=NeatFoldText()
+  " set foldtext=NeatFoldText()
+  set foldtext=Foldy()
+
+  function! Foldy()
+    let linelen = &tw ? &tw : 80
+    let marker  = strpart(&fmr, 0, stridx(&fmr, ',')) . '\d*'
+    let range   = foldclosedend(v:foldstart) - foldclosed(v:foldstart) + 1
+
+    let left    = substitute(getline(v:foldstart), marker, '', '')
+    let leftlen = len(left)
+
+    let right    = range . ' [' . v:foldlevel . ']'
+    let rightlen = len(right)
+
+    let tmp    = strpart(left, 0, linelen - rightlen)
+    let tmplen = len(tmp)
+
+    if leftlen > len(tmp)
+      let left    = strpart(tmp, 0, tmplen - 4) . '... '
+      let leftlen = tmplen
+    endif
+
+    let fill = repeat(' ', linelen - (leftlen + rightlen))
+
+    return left . fill . right . repeat(' ', 100)
+  endfunction
 
   function! NeatFoldText()
     let line = substitute(getline(v:foldstart), '^\s*"\?\s*\|\s*"\?\s*{{' . '{\d*\s*', '', 'g')
@@ -68,6 +93,8 @@
   " Expand `%%` to the path of directory of the current file
   cnoremap %% <c-r>=expand("%:p:h")<cr>/
 
+  map <Leader>p :set paste!<cr>
+
 
 """"""""""""""" VISUAL
   set hls
@@ -113,6 +140,9 @@
   set incsearch     " do incremental searching
   set smartcase
   set noerrorbells
+  set nojoinspaces
+  set whichwrap=h,l
+  set display=lastline,uhex
 
   set wildmode=list:longest,list:full
   " Tab completion

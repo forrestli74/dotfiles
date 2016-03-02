@@ -15,19 +15,18 @@ git_status() {
   uncached_diff=$?
   if [[ $uncached_diff -eq 1 ]]; then
     color="red"
-    sym="✗"
+    # sym="✗"
   elif [[ $all_diff -eq 1 ]]; then
     color="blue"
-    sym="✗"
-  elif [[ $(git cherry -v 2>/dev/null) != "" ]]
-  then
+    # sym="✗"
+  elif [[ $(git cherry -v 2>/dev/null) != "" ]]; then
     color="magenta"
-    sym="☁"
+    # sym="☁"
   else
     color="green"
-    sym="✔"
+    # sym="✔"
   fi
-  echo "%{$fg[$color]%}$sym $current_branch%{$reset_color%}"
+  echo "%{$fg[$color]%}$current_branch%{$reset_color%}"
 }
 
 # indicate a job (for example, vim) has been backgrounded
@@ -40,14 +39,17 @@ suspended_jobs() {
 
 setopt promptsubst
 #export PS1=$'${SSH_CONNECTION+"%{$fg_bold[green]%}%n@%m:"}%{$fg_bold[blue]%}%~%{$reset_color%}$(git_prompt_info)\n%# '
+my_date() {
+  echo "%F{yellow}"`date '+%X'`"%f"
+}
 precmd() {
-  print -P '%{$fg_bold[blue]%}%~%{$reset_color%}'
+  print -P `my_date`' ('`git_status`') %{$fg_bold[blue]%}%~%{$reset_color%}' `suspended_jobs`
 }
 {
   post_fix='%(?.%{$fg_bold[green]%}.%{$fg_bold[red]%})❯%{$reset_color%} '
   export PROMPT=$post_fix
 }
-export RPROMPT='`git_status``suspended_jobs`'
+# export RPROMPT='`git_status``suspended_jobs`'
 
 # load our own completion functions
 fpath=(~/.zsh/completion /usr/local/share/zsh/site-functions $fpath)
@@ -71,8 +73,8 @@ export CLICOLOR=1
 # history settings
 setopt hist_ignore_all_dups inc_append_history
 HISTFILE=~/.zhistory
-HISTSIZE=4096
-SAVEHIST=4096
+HISTSIZE=1048576
+SAVEHIST=1048576
 
 # awesome cd movements from zshkit
 setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
@@ -146,3 +148,5 @@ source $(brew --prefix nvm)/nvm.sh
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

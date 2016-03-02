@@ -51,6 +51,8 @@ Plug 'tpope/vim-rails'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rsi'
+Plug 'junegunn/gv.vim'
 
 
 if filereadable(expand("~/.vimrc.bundles.local"))
