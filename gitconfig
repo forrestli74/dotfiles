@@ -9,13 +9,16 @@
   # ap = add --patch
   d = diff
   br = branch
-  branches = for-each-ref --sort=-committerdate --format=\"%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
+  branches = for-each-ref --sort=committerdate --format=\"%(color:reset)%(color:blue)%(authordate:relative)\t%(color:red)%(authorname)\t%(color:white)%(color:bold)%(refname:short)\" refs/remotes
   ci = commit -v
   co = checkout
   continue = rebase --continue
   cia = commit -a --amend --no-edit --reset-author
   ll = log --all --pretty='format:%d %Cgreen%h%Creset %an - %s' --graph
   st = status
+[stash]
+  showPatch = true
+  showStat = true
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
