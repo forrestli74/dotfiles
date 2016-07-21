@@ -91,7 +91,7 @@
   " vnoremap <silent><C-c> "zy:call system("pbcopy",@z)<CR>
 
   " Expand `%%` to the path of directory of the current file
-  cnoremap %% <c-r>=expand("%:p:h")<cr>/
+  cnoremap %% <c-r>=expand("%:h")<cr>/
 
   map <Leader>p :set paste!<cr>
 
@@ -204,6 +204,10 @@
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
   endif
+
+  " always use current directory
+  let g:ctrlp_working_path_mode=0
+
   """"" Ag
   let g:ag_working_path_mode="r"
   let g:rspec_command = "!bundle exec rspec {spec}"

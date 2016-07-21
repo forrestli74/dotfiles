@@ -33,7 +33,6 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'juvenn/mustache.vim'
 Plug 'kchmck/vim-coffee-script'
-Plug 'kchmck/vim-coffee-script'
 Plug 'nelstrom/vim-qargs'
 Plug 'pangloss/vim-javascript'
 Plug 'pbrisbin/vim-mkdir'
@@ -53,7 +52,7 @@ Plug 'tpope/vim-surround'
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rsi'
 Plug 'junegunn/gv.vim'
-
+Plug 'artur-shaik/vim-javacomplete2'
 
 if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local
