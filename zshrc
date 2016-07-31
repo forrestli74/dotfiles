@@ -4,6 +4,15 @@ if [[ -d $HOME/.linuxbrew ]]; then
   export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 fi
 
+if [[ -d $HOME/anaconda2 ]]; then
+  export PATH="$HOME/anaconda2/bin:$PATH"
+fi
+
+if [[ -d /usr/local/cuda/lib64 ]]; then
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+  export CUDA_HOME=/usr/local/cuda
+fi
+
 git_status() {
   # check if we're in a git repo
   command git rev-parse --is-inside-work-tree &>/dev/null || return
