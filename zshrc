@@ -155,7 +155,7 @@ export NVM_DIR=~/.nvm
 # TODO slowest
 source $(brew --prefix nvm)/nvm.sh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
