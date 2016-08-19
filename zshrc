@@ -9,6 +9,7 @@ if [[ -d $HOME/anaconda2 ]]; then
 fi
 
 if [[ -d /usr/local/cuda/lib64 ]]; then
+  export PATH=/usr/local/cuda/bin:$PATH
   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
   export CUDA_HOME=/usr/local/cuda
 fi
