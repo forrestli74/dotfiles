@@ -159,7 +159,9 @@
   set complete+=kspell
   " Always use vertical diffs
   set diffopt+=vertical
-  set shell=zsh
+  if executable('zsh')
+    set shell=zsh
+  endif
 
   " Set spellfile to location that is guaranteed to exist, can be symlinked to
   " Dropbox or kept in Git and managed outside of thoughtbot/dotfiles using rcm.

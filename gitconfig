@@ -33,3 +33,6 @@
   autosquash = true
 [include]
   path = ~/.gitconfig.local
+[user]
+  email = lijiaqigreat@gmail.com
+  name = Jiaqi Li
