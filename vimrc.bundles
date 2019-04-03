@@ -27,7 +27,7 @@ com! -nargs=+  -bar Bundle call VundleToPlug("Bundle", <args>)
 call plug#begin('~/.vim/bundle')
 
 " Define bundles via Github repos
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'bling/vim-airline'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -53,6 +53,11 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rsi'
 Plug 'junegunn/gv.vim'
 Plug 'artur-shaik/vim-javacomplete2'
+Plug 'nikvdp/ejs-syntax'
+Plug 'leafgarland/typescript-vim'
+Plug 'fatih/vim-go'
+Plug 'tomasr/molokai'
+Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local

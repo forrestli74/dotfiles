@@ -36,3 +36,5 @@
 [user]
   email = lijiaqigreat@gmail.com
   name = Jiaqi Li
+[diff]
+  tool = vimdiff

@@ -95,6 +95,11 @@
 
   map <Leader>p :set paste!<cr>
 
+  map <C-n> :cnext<CR>
+  map <C-m> :cprevious<CR>
+  nnoremap <leader>a :cclose<CR>
+
+
 
 """"""""""""""" VISUAL
   set hls
@@ -124,9 +129,9 @@
   set list listchars=tab:»·,trail:·,nbsp:·
 
   " syntax on
-  set t_Co=256
-  set background=dark
-  colorscheme solarized
+  " set t_Co=256
+  " set background=dark
+  colorscheme molokai
 
   hi Folded cterm=bold
 
@@ -143,6 +148,7 @@
   set nojoinspaces
   set whichwrap=h,l
   set display=lastline,uhex
+  set updatetime=100
 
   set wildmode=list:longest,list:full
   " Tab completion
@@ -193,6 +199,22 @@
   " Allow stylesheets to autocomplete hyphenated words
   autocmd FileType css,scss,sass setlocal iskeyword+=-
 
+  """"" Go
+  function! s:build_go_files()
+    let l:file = expand('%')
+    if l:file =~# '^\f\+_test\.go$'
+      call go#test#Test(0, 1)
+    elseif l:file =~# '^\f\+\.go$'
+      call go#cmd#Build(0)
+    endif
+  endfunction
+
+  autocmd FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+  autocmd FileType go nmap <leader>r  <Plug>(go-run)
+  autocmd FileType go nmap <leader>t  <Plug>(go-test)
+  autocmd FileType go nmap <leader>w :GoAlternate<CR>
+  autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=2 shiftwidth=2
+
 
 """"""""""""""" PLUGIN
   """"" NerdTree
@@ -222,6 +244,20 @@
   let g:syntastic_html_tidy_ignore_errors=[" proprietary attribute \"ng-"]
   let g:syntastic_eruby_ruby_quiet_messages =
       \ {"regex": "possibly useless use of a variable in void context"}
+
+  """"" vim-go
+
+  " use goimports for better formatting
+  let g:go_fmt_command = "goimports"
+  " default to use camelcase
+  let g:go_addtags_transform = "camelcase"
+  let g:go_highlight_types = 1
+  let g:go_highlight_functions = 1
+  let g:go_highlight_function_calls = 1
+  let g:go_metalinter_autosave = 1
+  " show function signature on status bar
+  let g:go_auto_type_info = 1
+  let g:go_auto_sameids = 1
 
 
 """"""""""""""" THOUGHTBOT TODO ???
