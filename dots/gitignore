@@ -1,0 +1,3 @@
+.DS_Store # Windows Artifact
+*.sw[nop] # swap file
+node_modules/ # nodejs
