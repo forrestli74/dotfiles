@@ -19,3 +19,6 @@ do
   ln -s ~/dotfiles/dots/$f ~/.$f
 done
 
+# install vim plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
