@@ -1,15 +1,20 @@
 # Unix
 alias ll="ls -al"
 alias mkdir="mkdir -p"
-alias be="bundle exec"
+alias tmux0="tmux attach || tmux"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
+
+alias code-server="~/openvscode-server/server.sh --port=3000"
 
 # Include custom aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 
 # alias ln="ln -v"
 # alias v="$VISUAL"
+
+#ruby
+# alias be="bundle exec"
 # alias migrate="rake db:migrate db:rollback && rake db:migrate"
 # alias s="rspec"

@@ -31,3 +31,9 @@ then
   vim -e -c 'PlugUpdate' -c 'q' -c 'q!'
 fi
 
+# install tpm
+TPM_FILE=$HOME/.tmux/plugins/tpm
+if [[ ! -e $TPM_FILE ]]
+then
+  git clone https://github.com/tmux-plugins/tpm $TPM_FILE
+fi

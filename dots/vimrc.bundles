@@ -28,9 +28,13 @@ call plug#begin('~/.vim/bundle')
 
 " Define bundles via Github repos
 " Plug 'altercation/vim-colors-solarized'
-Plug 'bling/vim-airline'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'dracula/vim', { 'name': 'dracula' }
+Plug 'chriskempson/base16-vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'romkatv/powerlevel10k'
+Plug 'christoomey/vim-tmux-navigator' " C-{hjkl} movement with tmux
+Plug 'ctrlpvim/ctrlp.vim' " fast file chooser
 Plug 'juvenn/mustache.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'nelstrom/vim-qargs'

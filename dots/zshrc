@@ -1,4 +1,29 @@
-source $HOME/.bashrc
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+if [[ -d $HOME/.linuxbrew ]]; then
+  export PATH="$HOME/.linuxbrew/bin:$PATH"
+  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+fi
+
+if [[ -d $HOME/anaconda2 ]]; then
+  export PATH="$HOME/anaconda2/bin:$PATH"
+fi
+
+if [[ -d /usr/local/cuda/lib64 ]]; then
+  export PATH=/usr/local/cuda/bin:$PATH
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+  export CUDA_HOME=/usr/local/cuda
+fi
+
+try_source() {
+  [[ -r $1 ]] && source $1
+}
 
 git_status() {
   # check if we're in a git repo
@@ -38,13 +63,13 @@ setopt promptsubst
 my_date() {
   echo "%F{yellow}"`date '+%X'`"%f"
 }
-precmd() {
-  print -P `my_date`' ('`git_status`') %{$fg_bold[blue]%}%~%{$reset_color%}' `suspended_jobs`
-}
-{
-  post_fix='%(?.%{$fg_bold[green]%}.%{$fg_bold[red]%})❯%{$reset_color%} '
-  export PROMPT=$post_fix
-}
+# precmd() {
+#   print -P `my_date`' ('`git_status`') %{$fg_bold[blue]%}%~%{$reset_color%}' `suspended_jobs`
+# }
+# {
+#   post_fix='%(?.%{$fg_bold[green]%}.%{$fg_bold[red]%})❯%{$reset_color%} '
+#   export PROMPT=$post_fix
+# }
 # export RPROMPT='`git_status``suspended_jobs`'
 
 # load our own completion functions
@@ -94,7 +119,7 @@ bindkey "^N" insert-last-word
 bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
 
 # aliases
-[[ -f ~/.aliases ]] && source ~/.aliases
+try_source ~/.aliases
 
 if hash xclip 2> /dev/null; then
   alias pbcopy='xclip -selection clipboard'
@@ -137,12 +162,34 @@ _load_settings() {
 }
 _load_settings "$HOME/.zsh/configs"
 
-# nvm
-export NVM_DIR=~/.nvm
-# TODO slowest
-source $(brew --prefix nvm)/nvm.sh
+if command -v brew &> /dev/null; then
+  # nvm
+  export NVM_DIR=~/.nvm
+  # TODO slowest
+  # try_source $(brew --prefix nvm)/nvm.sh
+fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+if [[ -e /etc/arch-release ]]; then
+  try_source /usr/share/fzf/key-bindings.zsh
+  try_source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+  try_source /usr/share/nnn/quitcd/quitcd.bash_zsh
+fi
+if nnn -V &> /dev/null; then
+  # -c only in cli
+  # -d detailed mode
+  # -H show hidden
+  # -E use $EDITOR
+  # -x don't know
+  export NNN_OPTS="cdHEx"
+  export NNN_BMS="h:$HOME;g:$HOME/git;d:$HOME/Downloads/"
+  # export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
+  export NNN_COLORS='1234'
+fi
+
+try_source ~/.fzf.zsh
 
 # Local config
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+try_source ~/.zshrc.local
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+try_source ~/.p10k.zsh

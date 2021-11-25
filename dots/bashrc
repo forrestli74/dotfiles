@@ -1,33 +1,18 @@
+# This bashrc only contains essential stuff where zsh cannot be used.
+try_source() {
+  [[ -r $1 ]] && source $1
+}
 
 alias ls='ls --color=auto'
-PS1='[\u@\h \W]\$ '
-
-if [[ -d $HOME/.linuxbrew ]]; then
-  export PATH="$HOME/.linuxbrew/bin:$PATH"
-  export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-  export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
-fi
-
-if [[ -d $HOME/anaconda2 ]]; then
-  export PATH="$HOME/anaconda2/bin:$PATH"
-fi
-
-if [[ -d /usr/local/cuda/lib64 ]]; then
-  export PATH=/usr/local/cuda/bin:$PATH
-  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
-  export CUDA_HOME=/usr/local/cuda
-fi
+# PS1='[\u@\h \W]\$ '
+PS1='\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 [[ $- != *i* ]] && return
 
+HISTSIZE=1048576
+SAVEHIST=1048576
+
 export CLICOLOR=1
 
-if which fzf &> /dev/null
-then
-  source /usr/share/fzf/key-bindings.bash
-fi
-
-if which nnn &> /dev/null
-then
-  source /usr/share/nnn/quitcd/quitcd.bash_zsh
-fi
+try_source /usr/share/fzf/key-bindings.bash
+try_source /usr/share/nnn/quitcd/quitcd.bash_zsh

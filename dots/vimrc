@@ -132,6 +132,8 @@ set list listchars=tab:»·,trail:·,nbsp:·
 " set t_Co=256
 " set background=dark
 colorscheme molokai
+" colorscheme dracula
+" AirlineTheme dracula
 
 hi Folded cterm=bold
 

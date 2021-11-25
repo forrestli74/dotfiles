@@ -8,12 +8,16 @@ PKGS=(
 'man-db'
 'man-pages'
 'git'
+'docker'
 'openssh'
 'tmux'
 'fzf' # fuzzy finder
 'nnn' # terminal file manager
 'bash-completion'
 'vim'
+'zsh'
+'zsh-theme-powerlevel10k'
+# ag
 )
 sudo pacman -S --noconfirm --needed ${PKGS[*]}
 
