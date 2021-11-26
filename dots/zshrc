@@ -176,14 +176,16 @@ if [[ -e /etc/arch-release ]]; then
 fi
 if nnn -V &> /dev/null; then
   # -c only in cli
-  # -d detailed mode
+  # # -d detailed mode
   # -H show hidden
   # -E use $EDITOR
   # -x don't know
-  export NNN_OPTS="cdHEx"
+  export NNN_OPTS="cHEx"
   export NNN_BMS="h:$HOME;g:$HOME/git;d:$HOME/Downloads/"
   # export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
   export NNN_COLORS='1234'
+  # export NNN_COLORS='a1b2c3d'
+  # export NNN_COLORS='8abd'
 fi
 
 try_source ~/.fzf.zsh

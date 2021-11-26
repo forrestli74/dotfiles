@@ -29,10 +29,12 @@ call plug#begin('~/.vim/bundle')
 " Define bundles via Github repos
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'dracula/vim', { 'name': 'dracula' }
+" Plug 'romkatv/powerlevel10k'
+" Plug 'daviesjamie/vim-base16-lightline'
+" Plug 'tomasr/molokai'
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'romkatv/powerlevel10k'
 Plug 'christoomey/vim-tmux-navigator' " C-{hjkl} movement with tmux
 Plug 'ctrlpvim/ctrlp.vim' " fast file chooser
 Plug 'juvenn/mustache.vim'
@@ -60,7 +62,6 @@ Plug 'artur-shaik/vim-javacomplete2'
 Plug 'nikvdp/ejs-syntax'
 Plug 'leafgarland/typescript-vim'
 Plug 'fatih/vim-go'
-Plug 'tomasr/molokai'
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
 if filereadable(expand("~/.vimrc.bundles.local"))

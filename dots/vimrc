@@ -131,9 +131,11 @@ set list listchars=tab:»·,trail:·,nbsp:·
 " syntax on
 " set t_Co=256
 " set background=dark
-colorscheme molokai
-" colorscheme dracula
-" AirlineTheme dracula
+
+" disable for base16
+" colorscheme molokai
+colorscheme base16-default-dark
+let g:airline_theme="base16_default_dark"
 
 hi Folded cterm=bold
 
