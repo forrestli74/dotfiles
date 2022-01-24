@@ -17,7 +17,11 @@ PKGS=(
 'vim'
 'zsh'
 'zsh-theme-powerlevel10k'
-# ag
+'ag' # better grep
+
+'nodejs'
+'npm'
+
 )
 sudo pacman -S --noconfirm --needed ${PKGS[*]}
 

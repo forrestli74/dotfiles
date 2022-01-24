@@ -1,0 +1,73 @@
+---
+# Get a token at https://github.com/settings/tokens/new to improve rate limit
+GithubToken: "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"
+# Select a colorscheme you want to use
+Colorscheme: "flat.yaml"
+
+# Scheme and template list URLs default to the following but can be overridden if you wish
+SchemesMasterURL: "https://raw.githubusercontent.com/chriskempson/base16-schemes-source/master/list.yaml"
+#TemplatesMasterURL: "https://raw.githubusercontent.com/chriskempson/base16-templates-source/master/list.yaml"
+
+# Enable/Disable dry-run. If enabled no configs will be altered
+# DryRun: true
+# Set the applications templates you want to render to true
+applications:
+    vim:
+        enabled: true
+        mode: rewrite
+        hook: ""
+        files:
+          default:
+            path: "/home/forrest/.vim/colors/base16-b16um.vim"
+            # path: "/home/forrest/.vim/bundle/base16-vim/colors/base16-b16um.vim"
+            mode: rewrite
+    vim-airline-themes:
+        enabled: true
+        mode: rewrite
+        hook: ""
+        files:
+          default:
+            # path: "/home/forrest/.vim/bundle/vim-airline/autoload/airline/themes/base16_b16um.vim"
+            # path: "/home/forrest/.vim/bundle/vim-airline-themes/autoload/airline/themes/base16_b16um.vim"
+            path: "/home/forrest/.vim/autoload/airline/themes/base16_b16um.vim"
+            # path: "/home/forrest/.vim/autoload/base16_b16um.vim"
+            mode: rewrite
+    vscode:
+        enabled: false
+        mode: rewrite
+        hook: ""
+        files:
+    xfce4-terminal:
+        enabled: true
+        mode: rewrite
+        hook: ""
+        files:
+          default:
+            path: "/home/forrest/.local/share/xfce4/terminal/colorschemes/base16-b16um.theme"
+            mode: rewrite
+    tmux:
+        enabled: true
+        mode: rewrite
+        hook: ""
+        files:
+          default:
+            # path: "/home/forrest/.vim/bundle/vim-airline/autoload/airline/themes/base16_b16um.vim"
+            # path: "/home/forrest/.vim/bundle/vim-airline-themes/autoload/airline/themes/base16_b16um.vim"
+            path: "/home/forrest/.tmux/plugins/base16-tmux/colors/base16-b16um.conf"
+            # path: "/home/forrest/.vim/autoload/base16_b16um.vim"
+            mode: rewrite
+    xresources:
+        enabled: false
+        mode: rewrite
+        hook: ""
+        files:
+    xshell:
+        enabled: false
+        mode: rewrite
+        hook: ""
+        files:
+    zathura:
+        enabled: false
+        mode: rewrite
+        hook: ""
+        files:

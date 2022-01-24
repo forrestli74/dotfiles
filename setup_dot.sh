@@ -1,39 +1,51 @@
 #!/usr/bin/env bash
 set -e
 
-for f in $(ls dots 2> /dev/null)
+DOT_DIR=$HOME/dotfiles/dots
+
+for f in $(ls $DOT_DIR 2> /dev/null)
 do
-  if [ -e ~/.$f ] || [ -L ~/.$f ]
+  TARGET=$DOT_DIR/$f
+  SOURCE=$HOME/.$f
+  if [ -e $SOURCE ] || [ -L $SOURCE ]
   then
     # symlink pointing to dotfiles
-    if [ -L ~/.$f ] && readlink -f ~/.$f | grep -q "^$HOME/dotfiles/"
-    then
-      echo "Overwriting .$f because it is a symlink pointing to ~/dotfiles."
-      rm ~/.$f
+    if [[ -L $SOURCE ]] && [[ $(readlink -f $SOURCE) == "$TARGET" ]]; then
+      rm $SOURCE
     # already has .local as well
-    elif [ -e ~/.$f.local ]
-    then
-      echo "Both ~/.$f and ~/.$f.local exists" 1>&2
+    elif [ -e $SOURCE.local ]; then
+      echo "Both $SOURCE and $SOURCE.local exists" 1>&2
       exit 1
     else
-      mv ~/.$f{,.local}
+      mv $SOURCE{,.local}
     fi
   fi
-  ln -s ~/dotfiles/dots/$f ~/.$f
+  ln -s $TARGET $SOURCE
 done
+exit
 
-# install vim plug
+# install vim-plug
 VIMPLUG_FILE=$HOME/.vim/autoload/plug.vim
-if [[ ! -e $VIMPLUG_FILE ]]
-then
+if [[ ! -e $VIMPLUG_FILE ]]; then
   curl -fLo $VIMPLUG_FILE --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  vim -e -c 'PlugUpdate' -c 'q' -c 'q!'
 fi
+vim -e -c 'PlugInstall' -c 'q' -c 'q!'
 
-# install tpm
-TPM_FILE=$HOME/.tmux/plugins/tpm
-if [[ ! -e $TPM_FILE ]]
-then
-  git clone https://github.com/tmux-plugins/tpm $TPM_FILE
+# install tmux plugin manager
+TPM_DIR=$HOME/.tmux/plugins/tpm
+if [[ ! -e $TPM_DIR ]]; then
+  git clone https://github.com/tmux-plugins/tpm $TPM_DIR
 fi
+sh $TPM_DIR/scripts/install_plugins.sh
+
+# install antigen
+ANTIGEN_FILE=$HOME/.antigen.zsh
+if [[ ! -e $ANTIGEN_FILE ]]; then
+  curl -L git.io/antigen > $ANTIGEN_FILE
+fi
+# or use git.io/antigen-nightly for the latest version
+
+
+
+
