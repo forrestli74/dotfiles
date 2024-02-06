@@ -146,7 +146,7 @@ colorscheme base16-default-dark
 " let g:airline_theme="base16_default_dark"
 " let g:airline_theme="base16_3024"
 
-hi Folded cterm=bold
+" hi Folded cterm=bold
 
 
 """"""""""""""" SETTING
@@ -232,6 +232,8 @@ autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=2 shiftwidth=2
 """"""""""""""" PLUGIN
 """"" NerdTree
 let NERDTreeShowHidden=1
+let g:NERDTreeChDirMode = 2
+
 """"" CtrlP
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
@@ -309,6 +311,7 @@ let g:html_indent_tags = 'li\|p'
 
 """"""""""""""" END
 " Local config
+call s:source("~/.vimrc.local")
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif

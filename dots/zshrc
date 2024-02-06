@@ -18,6 +18,10 @@ if [[ -d $HOME/anaconda2 ]]; then
   export PATH="$HOME/anaconda2/bin:$PATH"
 fi
 
+if [[ -d $HOME/.cargo/bin ]]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
 if [[ -d /usr/local/cuda/lib64 ]]; then
   export PATH=/usr/local/cuda/bin:$PATH
   export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
@@ -146,6 +150,7 @@ if nnn -V &> /dev/null; then
   # export NNN_COLORS='8abd'
 fi
 
+
 try_source ~/.fzf.zsh
 
 # Local config
@@ -153,3 +158,7 @@ try_source ~/.zshrc.local
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 try_source ~/.p10k.zsh
+
+# if [ -z $TMUX ] && [ "$TERM_PROGRAM" != "vscode" ]; then
+#   tmux attach || tmux
+# fi

@@ -25,9 +25,12 @@ com! -nargs=+  -bar Plugin call VundleToPlug("Plugin", <args>)
 com! -nargs=+  -bar Bundle call VundleToPlug("Bundle", <args>)
 
 " Install vim-plug if not found
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+let s:vim_home = '~/.vim'
+if has('nvim')
+  let s:vim_home = '~/.config/nvim'
+endif
+if empty(glob(s:vim_home . '/autoload/plug.vim'))
+  silent execute '!curl -fLo ' . s:vim_home . '/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 endif
 
 " Run PlugInstall if there are missing plugins
@@ -39,15 +42,20 @@ call plug#begin('~/.vim/bundle')
 
 " Define bundles via Github repos
 " Plug 'altercation/vim-colors-solarized'
-" Plug 'dracula/vim', { 'name': 'dracula' }
 " Plug 'romkatv/powerlevel10k'
 " Plug 'daviesjamie/vim-base16-lightline'
 " Plug 'tomasr/molokai'
 " Plug 'vim-airline/vim-airline-themes'
-Plug 'chriskempson/base16-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'dawikur/base16-vim-airline-themes'
+"
+" themes
+Plug 'folke/tokyonight.nvim'
 Plug 'dracula/vim'
+Plug 'chriskempson/base16-vim'
+Plug 'dawikur/base16-vim-airline-themes'
+Plug 'morhetz/gruvbox'
+Plug 'rakr/vim-one'
+
+Plug 'vim-airline/vim-airline'
 Plug 'christoomey/vim-tmux-navigator' " C-{hjkl} movement with tmux
 Plug 'ctrlpvim/ctrlp.vim' " fast file chooser
 Plug 'juvenn/mustache.vim'
@@ -77,8 +85,13 @@ Plug 'leafgarland/typescript-vim'
 Plug 'fatih/vim-go'
 Plug 'mdempsky/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 
+" neovim
+" Plug 'neovim/nvim-lspconfig'
+" Plug 'tjdevries/nlua.nvim'
+
 if filereadable(expand("~/.vimrc.bundles.local"))
   source ~/.vimrc.bundles.local
 endif
+
 
 call plug#end()
