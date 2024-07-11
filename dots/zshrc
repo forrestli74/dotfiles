@@ -8,6 +8,10 @@ try_source() {
 try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 try_source .antigen.zsh
 
+if [[ -e /opt/homebrew/bin/brew ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 if [[ -d $HOME/.linuxbrew ]]; then
   export PATH="$HOME/.linuxbrew/bin:$PATH"
   export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
@@ -136,6 +140,7 @@ if [[ -e /etc/arch-release ]]; then
   try_source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
   try_source /usr/share/nnn/quitcd/quitcd.bash_zsh
 fi
+
 if nnn -V &> /dev/null; then
   # -c only in cli
   # # -d detailed mode
@@ -150,6 +155,10 @@ if nnn -V &> /dev/null; then
   # export NNN_COLORS='8abd'
 fi
 
+if command -v fzf &> /dev/null; then
+  source <(fzf --zsh)
+fi
+
 
 try_source ~/.fzf.zsh
 
@@ -162,3 +171,4 @@ try_source ~/.p10k.zsh
 # if [ -z $TMUX ] && [ "$TERM_PROGRAM" != "vscode" ]; then
 #   tmux attach || tmux
 # fi
+source ~/powerlevel10k/powerlevel10k.zsh-theme
