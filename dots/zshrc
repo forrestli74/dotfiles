@@ -182,4 +182,7 @@ try_source ~/.p10k.zsh
 # if [ -z $TMUX ] && [ "$TERM_PROGRAM" != "vscode" ]; then
 #   tmux attach || tmux
 # fi
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+# installed p10k locally
+try_source ~/powerlevel10k/powerlevel10k.zsh-theme
+# installed p10k through brew
+try_source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
