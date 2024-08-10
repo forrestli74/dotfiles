@@ -16,3 +16,4 @@ export CLICOLOR=1
 
 try_source /usr/share/fzf/key-bindings.bash
 try_source /usr/share/nnn/quitcd/quitcd.bash_zsh
+
