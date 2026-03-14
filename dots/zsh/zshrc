@@ -173,9 +173,6 @@ fi
 
 try_source ~/.fzf.zsh
 
-# Local config
-try_source ~/.zshrc.local
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 try_source ~/.p10k.zsh
 
@@ -186,3 +183,15 @@ try_source ~/.p10k.zsh
 try_source ~/powerlevel10k/powerlevel10k.zsh-theme
 # installed p10k through brew
 try_source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
+
+# Local config
+try_source ~/.zshrc.local
+
+# pnpm
+export PNPM_HOME="/Users/jiaqili/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+export PATH="$HOME/.local/bin:$PATH"

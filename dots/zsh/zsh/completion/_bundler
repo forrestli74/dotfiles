@@ -1,4 +1,5 @@
 #compdef bundle
+# Zsh completion for bundler gem management
 
 local curcontext="$curcontext" state line _gems _opts ret=1
 

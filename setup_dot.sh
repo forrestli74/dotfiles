@@ -1,36 +1,23 @@
 #!/usr/bin/env bash
 set -e
+source "$(dirname "$0")/util.sh"
 
 DOT_DIR=$HOME/dotfiles/dots
 
-for f in $(ls $DOT_DIR 2> /dev/null)
-do
-  TARGET=$DOT_DIR/$f
-  SOURCE=$HOME/.$f
-  if [ -e $SOURCE ] || [ -L $SOURCE ]
-  then
-    # symlink pointing to dotfiles
-    if [[ -L $SOURCE ]] && [[ $(readlink -f $SOURCE) == "$TARGET" ]]; then
-      rm $SOURCE
-    # already has .local as well
-    elif [ -e $SOURCE.local ]; then
-      echo "Both $SOURCE and $SOURCE.local exists" 1>&2
-      exit 1
-    else
-      mv $SOURCE{,.local}
-    fi
+# Symlink each item in dots/<group>/ to ~/.<item>
+# If a group has its own setup.sh, skip safe_link and run that instead.
+for group in "$DOT_DIR"/*/; do # e.g. dots/vim/
+  if [ -f "$group/setup.sh" ]; then
+    bash "$group/setup.sh"
+  else
+    for item in "$group"*; do # e.g. dots/vim/.vimrc
+      safe_link "$item"
+    done
   fi
-  ln -s $TARGET $SOURCE
 done
 exit
 
-# install vim-plug
-VIMPLUG_FILE=$HOME/.vim/autoload/plug.vim
-if [[ ! -e $VIMPLUG_FILE ]]; then
-  curl -fLo $VIMPLUG_FILE --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-vim -e -c 'PlugInstall' -c 'q' -c 'q!'
+# --- Below is unreachable (kept for reference) ---
 
 # install tmux plugin manager
 TPM_DIR=$HOME/.tmux/plugins/tpm
@@ -39,7 +26,7 @@ if [[ ! -e $TPM_DIR ]]; then
 fi
 sh $TPM_DIR/scripts/install_plugins.sh
 
-# install antigen
+# install antigen (zsh plugin manager)
 ANTIGEN_FILE=$HOME/.antigen.zsh
 if [[ ! -e $ANTIGEN_FILE ]]; then
   curl -L git.io/antigen > $ANTIGEN_FILE
