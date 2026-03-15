@@ -2,6 +2,12 @@
 set -e
 source "$(dirname "$0")/util.sh"
 
+while getopts "f" opt; do
+  case $opt in
+    f) export FORCE=1 ;;
+  esac
+done
+
 DOT_DIR=$HOME/dotfiles/dots
 
 # Symlink each item in dots/<group>/ to ~/.<item>
@@ -15,24 +21,4 @@ for group in "$DOT_DIR"/*/; do # e.g. dots/vim/
     done
   fi
 done
-exit
-
-# --- Below is unreachable (kept for reference) ---
-
-# install tmux plugin manager
-TPM_DIR=$HOME/.tmux/plugins/tpm
-if [[ ! -e $TPM_DIR ]]; then
-  git clone https://github.com/tmux-plugins/tpm $TPM_DIR
-fi
-sh $TPM_DIR/scripts/install_plugins.sh
-
-# install antigen (zsh plugin manager)
-ANTIGEN_FILE=$HOME/.antigen.zsh
-if [[ ! -e $ANTIGEN_FILE ]]; then
-  curl -L git.io/antigen > $ANTIGEN_FILE
-fi
-# or use git.io/antigen-nightly for the latest version
-
-
-
 

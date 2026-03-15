@@ -2,6 +2,8 @@
 set -e
 source "$(dirname "$0")/../../util.sh"
 
+command -v vim &>/dev/null || exit 0
+
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 for item in "$SCRIPT_DIR"/*; do

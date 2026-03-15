@@ -6,8 +6,10 @@ safe_link() {
   local TARGET=$1
   local SOURCE=${2:-$HOME/.$(basename "$TARGET")}
   if [ -e "$SOURCE" ] || [ -L "$SOURCE" ]; then
+    if [[ -n "$FORCE" ]]; then
+      rm -rf "$SOURCE"
     # Already the correct symlink — remove so we can recreate it
-    if [[ -L "$SOURCE" ]] && [[ $(readlink -f "$SOURCE") == "$TARGET" ]]; then
+    elif [[ -L "$SOURCE" ]] && [[ $(readlink -f "$SOURCE") == "$TARGET" ]]; then
       rm "$SOURCE"
     # Conflict: both original and .local backup exist
     elif [ -e "$SOURCE.local" ]; then

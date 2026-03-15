@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat /Users/jiaqili/dotfiles/dots/git_template/hooks/* /Users/jiaqili/dotfiles/dots/git_template/info/exclude)",
+      "Bash(git ls-tree:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Read(//Users/jiaqili/.claude/**)",
+      "Bash(bash /Users/jiaqili/dotfiles/dots/claude/setup.sh)"
+    ]
+  }
+}
