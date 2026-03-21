@@ -195,3 +195,6 @@ case ":$PATH:" in
 esac
 # pnpm end
 export PATH="$HOME/.local/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/jiaqili/.antigravity/antigravity/bin:$PATH"

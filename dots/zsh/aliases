@@ -11,10 +11,10 @@ alias code-server="~/openvscode-server/server.sh --port=3000"
 # Include custom aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 
-# if command -v pnpm >/dev/null 2>&1; then
-#     alias npm='pnpm'
-#     alias npx="pnpm dlx"
-# fi
+if command -v pnpm >/dev/null 2>&1; then
+    alias npm='pnpm'
+    alias npx="pnpm dlx"
+fi
 # alias ln="ln -v"
 # alias v="$VISUAL"
 
