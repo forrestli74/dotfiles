@@ -185,6 +185,7 @@ try_source ~/powerlevel10k/powerlevel10k.zsh-theme
 try_source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # Local config
+try_source ~/.env
 try_source ~/.zshrc.local
 
 # pnpm

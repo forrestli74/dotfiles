@@ -6,7 +6,9 @@ alias tmux0="tmux attach || tmux"
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 
-alias code-server="~/openvscode-server/server.sh --port=3000"
+if command -v claude &>/dev/null; then
+    alias claude-yolo="claude --dangerously-skip-permissions"
+fi
 
 # Include custom aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local

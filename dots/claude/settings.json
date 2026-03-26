@@ -1,8 +1,5 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "feedbackSurveyState": {
-    "lastShownTime": 1754082831329
-  },
   "permissions": {
     "allow": [
       "Bash(which:*)",
@@ -36,8 +33,6 @@
       "Bash(npx:*)",
       "Bash(pnpm:*)",
       "Bash(node:*)",
-      "Bash(python:*)",
-      "Bash(python3:*)",
       "Bash(pip list:*)",
       "Bash(pip show:*)",
       "Bash(pytest:*)",
@@ -83,22 +78,23 @@
     ]
   },
   "hooks": {
-    "SessionStart": [
+    "PreToolUse": [
       {
+        "matcher": "Skill",
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/jiaqili/.claude/hooks/gsd-check-update.js\""
+            "command": "npx ccstatusline@latest --hook"
           }
         ]
       }
     ],
-    "PostToolUse": [
+    "UserPromptSubmit": [
       {
         "hooks": [
           {
             "type": "command",
-            "command": "node \"/Users/jiaqili/.claude/hooks/gsd-context-monitor.js\""
+            "command": "npx ccstatusline@latest --hook"
           }
         ]
       }
@@ -106,6 +102,21 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "node \"/Users/jiaqili/.claude/hooks/gsd-statusline.js\""
-  }
+    "command": "npx ccstatusline@latest",
+    "padding": 0
+  },
+  "enabledPlugins": {
+    "superpowers@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "github@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true
+  },
+  "envFile": "~/.env",
+  "feedbackSurveyState": {
+    "lastShownTime": 1754082831329
+  },
+  "skipDangerousModePermissionPrompt": true
 }
