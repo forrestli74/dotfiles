@@ -1,20 +1,23 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
+      "Read",
+      "Edit",
+      "Write",
+      "Glob",
+      "Grep",
+      "NotebookEdit",
+      "WebFetch",
+      "WebSearch",
       "Bash(which:*)",
       "Bash(ls:*)",
       "Bash(pwd:*)",
-      "Bash(cat:*)",
       "Bash(head:*)",
       "Bash(tail:*)",
-      "Bash(wc:*)",
-      "Bash(echo:*)",
-      "Bash(date:*)",
-      "Bash(whoami:*)",
-      "Bash(uname:*)",
-      "Bash(env:*)",
-      "Bash(printenv:*)",
       "Bash(git status:*)",
       "Bash(git log:*)",
       "Bash(git diff:*)",
@@ -25,56 +28,48 @@
       "Bash(git rev-parse:*)",
       "Bash(git stash list:*)",
       "Bash(git tag:*)",
-      "Bash(npm list:*)",
-      "Bash(npm outdated:*)",
-      "Bash(npm run:*)",
-      "Bash(npm test:*)",
-      "Bash(npm install:*)",
+      "Bash(git config:*)",
+      "Bash(git describe:*)",
+      "Bash(git ls-files:*)",
+      "Bash(git ls-remote:*)",
+      "Bash(git shortlog:*)",
+      "Bash(git reflog:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git fetch:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git merge:*)",
+      "Bash(git rebase:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(git worktree:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh pr status:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh issue list:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh issue status:*)",
+      "Bash(gh issue create:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh repo view:*)",
+      "Bash(npm:*)",
       "Bash(npx:*)",
       "Bash(pnpm:*)",
-      "Bash(node:*)",
-      "Bash(pip list:*)",
-      "Bash(pip show:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
       "Bash(pytest:*)",
+      "Bash(uv:*)",
       "Bash(cargo:*)",
-      "Bash(go build:*)",
-      "Bash(go test:*)",
-      "Bash(go run:*)",
+      "Bash(go:*)",
       "Bash(make:*)",
-      "Bash(jq:*)",
-      "Bash(find:*)",
-      "Bash(grep:*)",
-      "Bash(rg:*)",
-      "Bash(fd:*)",
-      "Bash(tree:*)",
-      "Bash(file:*)",
-      "Bash(stat:*)",
-      "Bash(diff:*)",
-      "Bash(sort:*)",
-      "Bash(uniq:*)",
-      "Bash(cut:*)",
-      "Bash(sed:*)",
-      "Bash(awk:*)",
-      "Bash(xargs:*)",
-      "Bash(tee:*)",
-      "Bash(dirname:*)",
-      "Bash(basename:*)",
-      "Bash(realpath:*)",
-      "Bash(gh pr:*)",
-      "Bash(gh issue:*)",
-      "Bash(gh api:*)",
-      "Bash(gh run:*)",
-      "Bash(gh repo view:*)",
-      "Bash(docker ps:*)",
-      "Bash(docker logs:*)",
-      "Bash(docker images:*)",
       "Bash(curl:*)",
-      "Read",
-      "Edit",
-      "Write",
-      "Glob",
-      "Grep",
-      "NotebookEdit"
+      "Bash(jq:*)"
     ]
   },
   "hooks": {
@@ -84,9 +79,19 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx ccstatusline@latest --hook"
+            "command": "pnpm dlx ccstatusline@latest --hook"
           }
         ]
+      },
+      {
+        "_tag": "ccstatusline-managed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm dlx ccstatusline@latest --hook"
+          }
+        ],
+        "matcher": "Skill"
       }
     ],
     "UserPromptSubmit": [
@@ -94,7 +99,16 @@
         "hooks": [
           {
             "type": "command",
-            "command": "npx ccstatusline@latest --hook"
+            "command": "pnpm dlx ccstatusline@latest --hook"
+          }
+        ]
+      },
+      {
+        "_tag": "ccstatusline-managed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm dlx ccstatusline@latest --hook"
           }
         ]
       }
@@ -102,21 +116,22 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "npx ccstatusline@latest",
+    "command": "pnpm dlx ccstatusline@latest",
     "padding": 0
   },
   "enabledPlugins": {
     "superpowers@claude-plugins-official": true,
-    "context7@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
-    "github@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
-    "playwright@claude-plugins-official": true
+    "playwright@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "swift-lsp@claude-plugins-official": true
   },
+  "skipDangerousModePermissionPrompt": true,
   "envFile": "~/.env",
   "feedbackSurveyState": {
     "lastShownTime": 1754082831329
-  },
-  "skipDangerousModePermissionPrompt": true
+  }
 }

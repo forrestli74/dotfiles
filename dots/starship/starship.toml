@@ -1,0 +1,17 @@
+[aws]
+detect_env_vars = ["AWS_PROFILE", "AWS_VAULT"]
+
+[gcloud]
+detect_env_vars = ["CLOUDSDK_ACTIVE_CONFIG_NAME"]
+
+[azure]
+detect_env_vars = ["AZURE_SUBSCRIPTION_ID"]
+
+[time]
+disabled = false
+time_format = "%H:%M:%S"
+format = "[$time]($style) "
+
+[git_metrics]
+disabled = false
+format = '([+$added]($added_style) )([-$deleted]($deleted_style) )'

@@ -1,201 +1,104 @@
+# ============================================================
+# Shell bootstrap
+# ============================================================
 try_source() {
   [[ -r $1 ]] && source $1
 }
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-try_source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-try_source .antigen.zsh
+# ============================================================
+# Platform bootstrap — package managers and system PATH
+# ============================================================
 
-if [[ -e /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-fi
-
+# linuxbrew (Linux)
 if [[ -d $HOME/.linuxbrew ]]; then
   export PATH="$HOME/.linuxbrew/bin:$PATH"
   export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
   export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
 fi
+
+# Homebrew on Apple Silicon — hardcoded instead of `eval "$(brew shellenv)"`
+# to avoid the ~20-30ms brew subprocess on every shell start.
 if [[ -d /opt/homebrew ]]; then
-  export HOMEBREW_PREFIX="/opt/homebrew";
-  export HOMEBREW_CELLAR="/opt/homebrew/Cellar";
-  export HOMEBREW_REPOSITORY="/opt/homebrew";
-  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}";
-  export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:";
-  export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
-
-  export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
-fi 
-
-
-if [[ -d $HOME/anaconda2 ]]; then
-  export PATH="$HOME/anaconda2/bin:$PATH"
+  export HOMEBREW_PREFIX="/opt/homebrew"
+  export HOMEBREW_CELLAR="/opt/homebrew/Cellar"
+  export HOMEBREW_REPOSITORY="/opt/homebrew"
+  export PATH="/opt/homebrew/bin:/opt/homebrew/sbin${PATH+:$PATH}"
+  export MANPATH="/opt/homebrew/share/man${MANPATH+:$MANPATH}:"
+  export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}"
+  fpath=(/opt/homebrew/share/zsh/site-functions $fpath)
 fi
 
-if [[ -d $HOME/.cargo/bin ]]; then
-  export PATH="$HOME/.cargo/bin:$PATH"
-fi
-
-if [[ -d /usr/local/cuda/lib64 ]]; then
-  export PATH=/usr/local/cuda/bin:$PATH
-  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
-  export CUDA_HOME=/usr/local/cuda
-fi
-
-
-fpath=(~/.zsh/completion /usr/local/share/zsh/site-functions $fpath)
-
-#base16
-# BASE16_SHELL="$HOME/.config/base16-shell/"
-# [ -n "$PS1" ] && \
-#   [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
-#   eval "$("$BASE16_SHELL/profile_helper.sh")"
+# ============================================================
+# Shell behavior — completion, history, aliases
+# ============================================================
 
 # completion
 autoload -U compinit
 compinit
 
-# load custom executable functions
-for function in ~/.zsh/functions/*; do
-  source $function
-done
+# Tab twice to enter interactive menu (arrow keys to select, Enter to accept)
+zstyle ':completion:*' menu select
 
-# makes color constants available
-autoload -U colors
-colors
-
-# enable colored output from ls, etc
-export CLICOLOR=1
-
-# history settings
+# history
 setopt hist_ignore_all_dups inc_append_history
 HISTFILE=~/.zhistory
 HISTSIZE=1048576
 SAVEHIST=1048576
 
-# awesome cd movements from zshkit
-setopt autocd autopushd pushdminus pushdsilent pushdtohome cdablevars
-DIRSTACKSIZE=5
-
-# Enable extended globbing
-setopt extendedglob
-
-# Allow [ or ] whereever you want
-unsetopt nomatch
-
-
-# handy keybindings
-bindkey "^A" beginning-of-line
-bindkey "^E" end-of-line
-bindkey "^K" kill-line
-bindkey "^R" history-incremental-search-backward
-bindkey "^P" history-search-backward
-bindkey "^Y" accept-and-hold
-bindkey "^N" insert-last-word
-bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
-
 # aliases
 try_source ~/.aliases
 
-if hash xclip 2> /dev/null; then
-  alias pbcopy='xclip -selection clipboard'
-  alias pbpaste='xclip -selection clipboard -o'
+# clipboard (Wayland)
+if command -v wl-copy &> /dev/null; then
+  alias pbcopy='wl-copy'
+  alias pbpaste='wl-paste'
 fi
 
-# extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
-# these are loaded first, second, and third, respectively.
-_load_settings() {
-  _dir="$1"
-  if [ -d "$_dir" ]; then
-    if [ -d "$_dir/pre" ]; then
-      for config in "$_dir"/pre/**/*(N-.); do
-        . $config
-      done
-    fi
+# ============================================================
+# Tools — PATH entries and shell integrations
+# ============================================================
 
-    for config in "$_dir"/**/*(N-.); do
-      case "$config" in
-        "$_dir"/pre/*)
-          :
-          ;;
-        "$_dir"/post/*)
-          :
-          ;;
-        *)
-          if [ -f $config ]; then
-            . $config
-          fi
-          ;;
-      esac
-    done
-
-    if [ -d "$_dir/post" ]; then
-      for config in "$_dir"/post/**/*(N-.); do
-        . $config
-      done
-    fi
-  fi
-}
-_load_settings "$HOME/.zsh/configs"
-
-if command -v brew &> /dev/null; then
-  # nvm
-  export NVM_DIR=~/.nvm
-  # TODO slowest
-  # try_source $(brew --prefix nvm)/nvm.sh
+# Rust
+if [[ -d $HOME/.cargo/bin ]]; then
+  export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-if [[ -e /etc/arch-release ]]; then
-  try_source /usr/share/fzf/key-bindings.zsh
-  try_source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-  try_source /usr/share/nnn/quitcd/quitcd.bash_zsh
+# CUDA (Linux with NVIDIA)
+if [[ -d /usr/local/cuda/lib64 ]]; then
+  export PATH="/usr/local/cuda/bin:$PATH"
+  export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/cuda/lib64"
+  export CUDA_HOME=/usr/local/cuda
 fi
 
-if nnn -V &> /dev/null; then
-  # -c only in cli
-  # # -d detailed mode
-  # -H show hidden
-  # -E use $EDITOR
-  # -x don't know
-  export NNN_OPTS="cHEx"
-  export NNN_BMS="h:$HOME;g:$HOME/git;d:$HOME/Downloads/"
-  # export NNN_PLUG='f:finder;o:fzopen;p:mocplay;d:diffs;t:nmount;v:imgview'
-  export NNN_COLORS='1234'
-  # export NNN_COLORS='a1b2c3d'
-  # export NNN_COLORS='8abd'
+# pnpm (macOS — $HOME/Library only exists on mac)
+if [[ -d "$HOME/Library/pnpm" ]]; then
+  export PNPM_HOME="$HOME/Library/pnpm"
+  case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+  esac
 fi
 
+# user-local binaries
+export PATH="$HOME/.local/bin:$PATH"
+
+# fzf
 if command -v fzf &> /dev/null; then
   source <(fzf --zsh)
 fi
 
+# zoxide (smart cd)
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh --cmd cd)"
+fi
 
-try_source ~/.fzf.zsh
+# starship prompt
+if command -v starship &> /dev/null; then
+  eval "$(starship init zsh)"
+fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-try_source ~/.p10k.zsh
-
-# if [ -z $TMUX ] && [ "$TERM_PROGRAM" != "vscode" ]; then
-#   tmux attach || tmux
-# fi
-# installed p10k locally
-try_source ~/powerlevel10k/powerlevel10k.zsh-theme
-# installed p10k through brew
-try_source $(brew --prefix)/share/powerlevel10k/powerlevel10k.zsh-theme
-
-# Local config
+# ============================================================
+# Local overrides — machine-specific, last so they win
+# ============================================================
 try_source ~/.env
 try_source ~/.zshrc.local
-
-# pnpm
-export PNPM_HOME="/Users/jiaqili/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-export PATH="$HOME/.local/bin:$PATH"
-
-# Added by Antigravity
-export PATH="/Users/jiaqili/.antigravity/antigravity/bin:$PATH"

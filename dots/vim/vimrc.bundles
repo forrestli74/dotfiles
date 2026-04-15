@@ -43,15 +43,12 @@ call plug#begin('~/.vim/bundle')
 " Define bundles via Github repos
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'romkatv/powerlevel10k'
-" Plug 'daviesjamie/vim-base16-lightline'
 " Plug 'tomasr/molokai'
 " Plug 'vim-airline/vim-airline-themes'
 "
 " themes
 Plug 'folke/tokyonight.nvim'
 Plug 'dracula/vim'
-Plug 'chriskempson/base16-vim'
-Plug 'dawikur/base16-vim-airline-themes'
 Plug 'morhetz/gruvbox'
 Plug 'rakr/vim-one'
 

@@ -1,4 +1,5 @@
 # Unix
+alias ls='ls --color=auto'
 alias ll="ls -al"
 alias mkdir="mkdir -p"
 alias tmux0="tmux attach || tmux"
@@ -7,7 +8,7 @@ alias tmux0="tmux attach || tmux"
 alias path='echo $PATH | tr -s ":" "\n"'
 
 if command -v claude &>/dev/null; then
-    alias claude-yolo="claude --dangerously-skip-permissions"
+    alias cc="claude --dangerously-skip-permissions"
 fi
 
 # Include custom aliases
@@ -15,7 +16,16 @@ fi
 
 if command -v pnpm >/dev/null 2>&1; then
     alias npm='pnpm'
-    alias npx="pnpm dlx"
+    # pnpm dlx doesn't support -y/--yes (it auto-confirms by default),
+    # but many tools call npx with -y, so strip it for compatibility
+    npx() {
+        local args=()
+        for arg in "$@"; do
+            [[ "$arg" == "-y" || "$arg" == "--yes" ]] && continue
+            args+=("$arg")
+        done
+        pnpm dlx --silent "${args[@]}"
+    }
 fi
 # alias ln="ln -v"
 # alias v="$VISUAL"

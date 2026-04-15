@@ -1,4 +1,0 @@
-#compdef rspec
-# Zsh completion for rspec test runner
-
-compadd -P spec/ `ls spec/**/*_spec.rb | sed -E "s/spec\///g"`
