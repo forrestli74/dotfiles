@@ -1,5 +1,8 @@
 !bin
 vim/bundle/
 
+# compiled spell files (auto-generated from .add)
+*.spl
+
 # for ai
 research/

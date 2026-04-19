@@ -1,3 +1,7 @@
 theme = Base9
 font-size = 16
 macos-titlebar-style = tabs
+# Pane divider: only color is configurable. Thickness and per-focus-state
+# color are open FRs (ghostty-org/ghostty #3301, #2727).
+split-divider-color = #bbbbbb
+unfocused-split-opacity = 0.6

@@ -70,7 +70,8 @@
       "Bash(make:*)",
       "Bash(curl:*)",
       "Bash(jq:*)"
-    ]
+    ],
+    "defaultMode": "auto"
   },
   "hooks": {
     "PreToolUse": [
@@ -84,14 +85,13 @@
         ]
       },
       {
-        "_tag": "ccstatusline-managed",
+        "matcher": "Skill",
         "hooks": [
           {
             "type": "command",
             "command": "pnpm dlx ccstatusline@latest --hook"
           }
-        ],
-        "matcher": "Skill"
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -104,7 +104,6 @@
         ]
       },
       {
-        "_tag": "ccstatusline-managed",
         "hooks": [
           {
             "type": "command",
@@ -133,5 +132,7 @@
   "envFile": "~/.env",
   "feedbackSurveyState": {
     "lastShownTime": 1754082831329
-  }
+  },
+  "feedbackSurveyRate": 0,
+  "skipAutoPermissionPrompt": true
 }

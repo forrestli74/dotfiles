@@ -85,7 +85,37 @@ export PATH="$HOME/.local/bin:$PATH"
 # fzf
 if command -v fzf &> /dev/null; then
   source <(fzf --zsh)
+  bindkey '^P' fzf-history-widget
 fi
+
+# Ctrl-T: fzf under the trailing dir token.
+#   `vim <C-T>`     → stock widget (cwd)
+#   `vim src<C-T>`  → walks src/, inserts src/file
+#   `vim src/<C-T>` → walks src/, inserts src/file
+#   `vim nope<C-T>` → error "not a directory: nope/"
+if command -v fzf &> /dev/null; then
+  fzf-file-widget-prefix() {
+    # Last shell token, or "" if buffer is empty/ends in whitespace.
+    local -a toks=(${(z)LBUFFER})
+    local token=""
+    [[ $LBUFFER == *[^[:space:]] ]] && token=${toks[-1]:-}
+    [[ -z $token ]] && { zle fzf-file-widget; return }
+
+    # Normalize to dir/, remember whether we added the slash.
+    local dir=$token suffix=""
+    [[ $dir != */ ]] && { dir+=/; suffix=/ }
+    # Expand ~ manually; ${~dir} would also glob (e.g. foo*/).
+    local abs=${dir/#\~/$HOME}
+    [[ -d $abs ]] || { zle -M "fzf: not a directory: $dir"; return }
+
+    local pick=$(cd -- $abs && fzf --walker=file,dir,follow,hidden --reverse --height=40% < /dev/tty)
+    [[ -n $pick ]] && LBUFFER+="${suffix}${(q)pick}"
+    zle reset-prompt
+  }
+  zle -N fzf-file-widget-prefix
+  bindkey '^T' fzf-file-widget-prefix
+fi
+
 
 # zoxide (smart cd)
 if command -v zoxide &> /dev/null; then

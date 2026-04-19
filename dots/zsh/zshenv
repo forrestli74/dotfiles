@@ -13,5 +13,10 @@ fi
 # mkdir .git/safe in the root of repositories you trust
 export PATH=".git/safe/../../bin:$PATH"
 
+# Silence zoxide doctor in non-interactive shells — Claude Code's shell
+# snapshot replays cd/__zoxide_hook but not chpwd_functions membership,
+# causing a spurious warning. Interactive shells keep the check.
+[[ ! -o interactive ]] && export _ZO_DOCTOR=0
+
 # Local config
 [[ -f ~/.zshenv.local ]] && source ~/.zshenv.local

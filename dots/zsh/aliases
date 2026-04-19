@@ -11,6 +11,10 @@ if command -v claude &>/dev/null; then
     alias cc="claude --dangerously-skip-permissions"
 fi
 
+if command -v nvim &>/dev/null; then
+    alias vim='nvim'
+fi
+
 # Include custom aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 
