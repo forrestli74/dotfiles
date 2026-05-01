@@ -132,3 +132,6 @@ fi
 # ============================================================
 try_source ~/.env
 try_source ~/.zshrc.local
+
+# Added by Antigravity
+export PATH="/Users/jiaqili/.antigravity/antigravity/bin:$PATH"

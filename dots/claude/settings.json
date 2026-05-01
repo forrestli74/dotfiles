@@ -1,7 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
+    "DISABLE_TELEMETRY": "1"
   },
   "permissions": {
     "allow": [
@@ -92,6 +93,16 @@
             "command": "pnpm dlx ccstatusline@latest --hook"
           }
         ]
+      },
+      {
+        "_tag": "ccstatusline-managed",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm dlx ccstatusline@latest --hook"
+          }
+        ],
+        "matcher": "Skill"
       }
     ],
     "UserPromptSubmit": [
@@ -104,6 +115,15 @@
         ]
       },
       {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm dlx ccstatusline@latest --hook"
+          }
+        ]
+      },
+      {
+        "_tag": "ccstatusline-managed",
         "hooks": [
           {
             "type": "command",
@@ -126,13 +146,16 @@
     "playwright@claude-plugins-official": true,
     "context7@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "swift-lsp@claude-plugins-official": true
+    "swift-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
+  "feedbackSurveyRate": 0,
   "skipDangerousModePermissionPrompt": true,
+  "editorMode": "vim",
+  "skipAutoPermissionPrompt": true,
   "envFile": "~/.env",
   "feedbackSurveyState": {
     "lastShownTime": 1754082831329
   },
-  "feedbackSurveyRate": 0,
-  "skipAutoPermissionPrompt": true
+  "effortLevel": "high"
 }

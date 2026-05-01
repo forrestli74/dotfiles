@@ -1,4 +1,4 @@
-right_format = "$time"
+format = "$time $all"
 
 [gcloud]
 detect_env_vars = ["CLOUDSDK_ACTIVE_CONFIG_NAME"]

@@ -1,0 +1,22 @@
+<style>
+  /* Nerd Font icons (powerline glyphs, p10k icons).
+     Embedded as a data URL so the page is self-contained — no network. */
+  @font-face {
+    font-family: "NerdSymbols";
+    src: url("__NERDFONT_DATA_URL__") format("truetype");
+    font-display: swap;
+  }
+</style>
+<script>
+  // ttyd appends " | <command-path> (<hostname>)" to every title the inner
+  // program emits. Strip everything after the first " | " so the tab title
+  // is just whatever zsh/p10k/claude actually set.
+  (() => {
+    const proto = Object.getOwnPropertyDescriptor(Document.prototype, 'title');
+    Object.defineProperty(document, 'title', {
+      configurable: true,
+      get: proto.get.bind(document),
+      set(v) { proto.set.call(document, String(v).split(' | ')[0]); }
+    });
+  })();
+</script>

@@ -46,42 +46,6 @@ return {
     },
   },
 
-  -- Treesitter: parser-driven highlighting, indent, folds. Local library;
-  -- no server. Each language parser compiled on first use (needs cc).
-  --
-  -- Pinned to `master`: upstream was archived 2026-04-03. `main` is an
-  -- incompatible rewrite requiring Nvim 0.12; master is frozen but works
-  -- on 0.11 and will receive no more fixes.
-  --
-  -- auto_install works only for parsers that ship a pre-generated
-  -- src/parser.c (cc compiles directly). Parsers flagged
-  -- `requires_generate_from_grammar` in parsers.lua need the `tree-sitter`
-  -- CLI to regenerate parser.c, and master's install.lua passes the
-  -- `--no-bindings` flag that was removed in CLI 0.25+. Master is archived
-  -- so this will never be fixed upstream. We derive the skip list from
-  -- parsers.lua itself; those filetypes fall back to Neovim's built-in
-  -- regex syntax.
-  {
-    "nvim-treesitter/nvim-treesitter",
-    branch = "master",
-    build = ":TSUpdate",
-    main = "nvim-treesitter.configs",
-    opts = function()
-      local ignore = {}
-      for lang, cfg in pairs(require("nvim-treesitter.parsers").get_parser_configs()) do
-        if cfg.install_info and cfg.install_info.requires_generate_from_grammar then
-          table.insert(ignore, lang)
-        end
-      end
-      return {
-        auto_install = true,
-        ignore_install = ignore,
-        highlight = { enable = true },
-        indent = { enable = true },
-      }
-    end,
-  },
-
   -- fzf.vim: fuzzy pickers (Files, History, Rg, GFiles, Buffers...).
   -- Needs `fzf` binary on PATH; junegunn/fzf supplies the vim helpers.
   {
@@ -103,17 +67,10 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    cmd = { "NvimTreeToggle", "NvimTreeFindFile", "NvimTreeOpen", "NvimTreeClose", "NvimTreeFocus" },
-    -- Eager-load when nvim is invoked with a directory arg or no arg,
-    -- so the tree opens up front. `nvim file.txt` stays lazy.
+    lazy = false,
+    -- Auto-open the tree when nvim starts with no args.
     init = function()
-      local no_arg = vim.fn.argc() == 0
-      local arg = vim.fn.argv(0)
-      local dir_arg = arg ~= "" and vim.fn.isdirectory(arg) == 1
-      if no_arg or dir_arg then
-        require("lazy").load({ plugins = { "nvim-tree.lua" } })
-      end
-      if no_arg then
+      if vim.fn.argc() == 0 then
         vim.api.nvim_create_autocmd("VimEnter", {
           once = true,
           callback = function() require("nvim-tree.api").tree.open() end,
@@ -122,11 +79,12 @@ return {
     end,
     opts = {
       hijack_cursor = true,
+      hijack_directories = { enable = true, auto_open = true },
       sync_root_with_cwd = true,
       respect_buf_cwd = true,
       update_focused_file = { enable = true, update_root = true },
       filesystem_watchers = { enable = true },
-      filters = { dotfiles = false },
+      filters = { dotfiles = false, git_ignored = false },
       actions = { change_dir = { enable = true, global = false } },
       on_attach = function(bufnr)
         local api = require("nvim-tree.api")
@@ -145,6 +103,83 @@ return {
     "kylechui/nvim-surround",
     event = "VeryLazy",
     opts = {},
+  },
+
+  -- rainbow-delimiters: colorize nested brackets via treesitter.
+  {
+    "HiPhish/rainbow-delimiters.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("rainbow-delimiters.setup").setup({})
+    end,
+  },
+
+  -- render-markdown.nvim: in-buffer rendering of headings, code fences,
+  -- tables, checkboxes, etc. Uses core treesitter (nvim 0.12+); the
+  -- markdown/markdown_inline parsers auto-install via tree-sitter-manager.
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    ft = { "markdown" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      -- Disable heading icons in the sign column; keep gitsigns gutter clean.
+      sign = { enabled = false },
+      -- Strip source-level cell padding so wide tables fit more often.
+      pipe_table = { cell = "trimmed" },
+    },
+  },
+
+  -- markdown-preview.nvim (selimacerbas rewrite): browser preview with
+  -- live Mermaid/KaTeX rendering. Pure-Lua HTTP server (no Node), SSE
+  -- transport. Use this when render-markdown.nvim isn't enough — i.e.
+  -- you actually want diagrams rendered, not just styled code blocks.
+  {
+    "selimacerbas/markdown-preview.nvim",
+    dependencies = { "selimacerbas/live-server.nvim" },
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewRefresh" },
+    ft = { "markdown" },
+    -- One-time hint per nvim session: lazy.nvim's `init` runs at startup,
+    -- so the autocmd is registered before the plugin loads. The plugin
+    -- itself stays lazy (only loads when the user runs :MarkdownPreview).
+    init = function()
+      vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+        pattern = "*.md",
+        once = true,
+        callback = function()
+          vim.notify("markdown: <leader>mp to preview in browser, <leader>w to toggle wrap", vim.log.levels.INFO)
+        end,
+      })
+    end,
+    config = function()
+      require("markdown_preview").setup({})
+      local ok, wk = pcall(require, "which-key")
+      if ok then wk.add({ { "<leader>m", group = "markdown" } }) end
+    end,
+    keys = {
+      { "<leader>mp", "<cmd>MarkdownPreview<cr>", mode = "n", silent = true,
+        desc = "markdown-preview: open in browser" },
+      { "<leader>mr", "<cmd>MarkdownPreviewRefresh<cr>", mode = "n", silent = true,
+        desc = "markdown-preview: refresh" },
+      { "<leader>mq", "<cmd>MarkdownPreviewStop<cr>", mode = "n", silent = true,
+        desc = "markdown-preview: stop server" },
+    },
+  },
+
+  -- tree-sitter-manager: lightweight parser installer for nvim 0.12+
+  -- core treesitter (replaces archived nvim-treesitter). Requires
+  -- `tree-sitter` CLI on PATH (brew install tree-sitter).
+  -- Use :TSManager — i install / x remove / u update / r refresh / q close.
+  {
+    "romus204/tree-sitter-manager.nvim",
+    cmd = "TSManager",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require("tree-sitter-manager").setup({ auto_install = true })
+      -- jsonl has no dedicated grammar; each line is plain JSON.
+      vim.treesitter.language.register("json", "jsonl")
+    end,
   },
 
 }

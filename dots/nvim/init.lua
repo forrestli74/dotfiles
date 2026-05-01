@@ -67,7 +67,7 @@ opt.undofile = true
 
 opt.mouse = "a"
 
-pcall(vim.cmd.colorscheme, "dracula")
+pcall(vim.cmd.colorscheme, "catppuccin")
 
 ----------------------------- KEYMAPS -----------------------------
 local map = vim.keymap.set
@@ -81,6 +81,11 @@ map("", "gP", '"+P')
 
 map("c", "%%", "<C-r>=expand('%:h')<CR>/")
 
+map("n", "<leader>w", function()
+  vim.wo.wrap = not vim.wo.wrap
+  vim.notify("wrap: " .. (vim.wo.wrap and "on" or "off"), vim.log.levels.INFO)
+end, { desc = "toggle wrap" })
+
 -- Tab: native keyword completion after a word char; literal tab otherwise.
 map("i", "<Tab>", function()
   local col = vim.fn.col(".") - 1
@@ -93,16 +98,30 @@ end, { expr = true })
 ----------------------------- AUTOCMDS -----------------------------
 local grp = vim.api.nvim_create_augroup("user_config", { clear = true })
 
+-- Built-in tree-sitter highlighting where a parser exists; silently no-op
+-- otherwise, so files without parsers fall through to regex syntax.
+vim.api.nvim_create_autocmd("FileType", {
+  group = grp,
+  callback = function(args)
+    pcall(vim.treesitter.start, args.buf)
+  end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   group = grp,
   pattern = { "markdown", "gitcommit" },
   callback = function() vim.wo.spell = true end,
 })
 
+-- nowrap: in-buffer markdown renderers (render-markdown.nvim) skip
+-- table rendering when lines wrap, since extmark column math breaks.
 vim.api.nvim_create_autocmd("FileType", {
   group = grp,
   pattern = "markdown",
-  callback = function() vim.bo.textwidth = 80 end,
+  callback = function()
+    vim.bo.textwidth = 80
+    vim.wo.wrap = false
+  end,
 })
 
 ----------------------------- LOCAL -----------------------------
