@@ -1,19 +1,36 @@
 return {
   -- themes
-  "folke/tokyonight.nvim",
-  { "dracula/vim", name = "dracula", lazy = false, priority = 1000 },
-  "morhetz/gruvbox",
-  "rakr/vim-one",
+  "folke/tokyonight.nvim",                                                   -- dark blue/storm palette
+  { "dracula/vim", name = "dracula", lazy = false, priority = 1000 },        -- default colorscheme (loads eagerly)
+  "morhetz/gruvbox",                                                         -- retro warm palette
+  "rakr/vim-one",                                                            -- atom one light/dark
 
   -- UI / editing
+  -- lualine: lua statusline (replaces vim-airline).
   {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VeryLazy",
     opts = {},
   },
-  "christoomey/vim-tmux-navigator",
-  "farmergreg/vim-lastplace",
+  -- nvim-tmux-navigation: lua rewrite of vim-tmux-navigator. Same tmux-side
+  -- plugin (christoomey/vim-tmux-navigator in tmux.conf) keeps working.
+  -- Trade-off vs original: no save-on-switch, no tmate support.
+  {
+    "alexghergh/nvim-tmux-navigation",
+    event = "VeryLazy",
+    opts = {
+      disable_when_zoomed = true,
+      keybindings = {
+        left  = "<C-h>",
+        down  = "<C-j>",
+        up    = "<C-k>",
+        right = "<C-l>",
+        last_active = "<C-\\>",
+      },
+    },
+  },
+  "farmergreg/vim-lastplace", -- restore cursor to last position on file open
 
   -- which-key: popup lists keybindings after any prefix press (<leader>,
   -- g, z...) so chords are self-documenting. <leader>? shows buffer maps.
@@ -46,21 +63,25 @@ return {
     },
   },
 
-  -- fzf.vim: fuzzy pickers (Files, History, Rg, GFiles, Buffers...).
-  -- Needs `fzf` binary on PATH; junegunn/fzf supplies the vim helpers.
+  -- fzf-lua: lua rewrite of fzf.vim. Same fzf binary backend; adds LSP
+  -- pickers (lsp_references, document_symbols, diagnostics) and richer
+  -- git UI (:FzfLua git_status with inline stage/unstage). All pickers
+  -- under the :FzfLua command — :FzfLua builtin to discover them.
   {
-    "junegunn/fzf.vim",
-    dependencies = { "junegunn/fzf" },
-    cmd = { "Files", "GFiles", "Buffers", "History", "Rg", "RG", "Lines", "BLines", "Commits", "Marks" },
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    cmd = "FzfLua",
     keys = {
-      { "<C-p>", ":History:<CR>", mode = "n", silent = true, desc = "fzf: command history" },
-      { "<C-t>", ":Files<CR>",    mode = "n", silent = true, desc = "fzf: find files" },
+      { "<C-p>", "<cmd>FzfLua command_history<cr>", mode = "n", silent = true, desc = "fzf-lua: command history" },
+      { "<C-t>", "<cmd>FzfLua files<cr>",           mode = "n", silent = true, desc = "fzf-lua: find files" },
     },
-    init = function()
-      vim.g.fzf_layout = { window = { width = 0.8, height = 0.8 } }
-      vim.g.fzf_preview_window = { "up:80%" }
-      vim.env.FZF_DEFAULT_OPTS = "--layout=default"
-    end,
+    opts = {
+      winopts = {
+        width  = 0.8,
+        height = 0.8,
+        preview = { layout = "vertical", vertical = "up:80%" },
+      },
+    },
   },
 
   -- file tree (replaces NERDTree)
@@ -95,7 +116,7 @@ return {
     },
   },
 
-  "tpope/vim-rsi",
+  "tpope/vim-rsi", -- readline-style insert/command-mode keys (C-a, C-e, M-b...)
 
   -- nvim-surround: lua-native replacement for tpope/vim-surround.
   -- ys/cs/ds semantics; drop-in.

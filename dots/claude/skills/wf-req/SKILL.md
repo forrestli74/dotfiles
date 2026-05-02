@@ -1,9 +1,15 @@
+---
+name: wf-req
+description: Use when capturing requirements for a new feature or project with MVP scope — produces a requirements doc under `docs/[date]-[topic]/req.md` covering user flows, edge cases, follow-ups, and explicit non-goals.
+---
+
 # Requirement
 
+- doc lives at `docs/[date]-[topic]/req.md`
+- read existing docs and code before starting; pick up where prior work left off
 - only include bare minimum to be functional, MVP mentality
 - breakdown by sections
 - keep each point short
-- /grill-me
 
 ## Find Related Products
 
@@ -74,4 +80,3 @@ that you don't ask again.
 - logging, mention in implementation later, use sensible default
 
 If I talk about these above, warn me.
-

@@ -1,4 +1,13 @@
+---
+name: wf-code
+description: Use when implementing a feature via an orchestrator-driven subagent loop — coder edits, reviewer reviews, classifier triages each finding, repeating until two consecutive clean reviews. Work happens in `./.worktree/[topic]` on its own branch, never on main.
+---
+
 # Code
+
+- work happens in a worktree at `./.worktree/[topic]` on its own branch; main is not touched
+- read existing docs (e.g. `docs/[date]-[topic]/`) and code before starting; pick up where prior work left off
+- after the work is accepted, squash, merge, and delete the worktree
 
 You are the OA (Orchestrator Agent). You do not write or review code yourself;
 all coding and review happens through subagents.

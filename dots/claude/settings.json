@@ -95,14 +95,13 @@
         ]
       },
       {
-        "_tag": "ccstatusline-managed",
+        "matcher": "Skill",
         "hooks": [
           {
             "type": "command",
             "command": "pnpm dlx ccstatusline@latest --hook"
           }
-        ],
-        "matcher": "Skill"
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -123,7 +122,6 @@
         ]
       },
       {
-        "_tag": "ccstatusline-managed",
         "hooks": [
           {
             "type": "command",
@@ -139,7 +137,6 @@
     "padding": 0
   },
   "enabledPlugins": {
-    "superpowers@claude-plugins-official": true,
     "code-review@claude-plugins-official": true,
     "code-simplifier@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
@@ -150,12 +147,12 @@
     "rust-analyzer-lsp@claude-plugins-official": true
   },
   "feedbackSurveyRate": 0,
+  "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
   "editorMode": "vim",
   "skipAutoPermissionPrompt": true,
   "envFile": "~/.env",
   "feedbackSurveyState": {
     "lastShownTime": 1754082831329
-  },
-  "effortLevel": "high"
+  }
 }

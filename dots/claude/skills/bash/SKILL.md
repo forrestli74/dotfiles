@@ -1,6 +1,6 @@
 ---
 name: bash
-description: Conventions for writing bash shell scripts
+description: Use when writing or editing bash shell scripts — files ending in .sh, files with a #!/bin/bash or #!/usr/bin/env bash shebang, or any new shell automation/setup/install script.
 ---
 
 - Use `#!/usr/bin/env bash` and `set -e`.

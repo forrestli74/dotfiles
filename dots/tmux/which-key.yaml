@@ -1,0 +1,157 @@
+# tmux-which-key config — mirrors keybindings in tmux.conf.
+# Trigger: prefix (C-a) + Space.
+# Symlinked to ~/.config/tmux/plugins/tmux-which-key/config.yaml by setup.sh.
+
+command_alias_start_index: 200
+keybindings:
+  prefix_table: Space
+title:
+  style: align=centre,bold
+  prefix: tmux
+  prefix_style: fg=green,align=centre,bold
+position:
+  x: R
+  y: P
+
+items:
+  # ── direct actions ───────────────────────────────────────────────
+  - name: Reload config
+    key: r
+    command: source-file ~/.tmux.conf
+  - name: Copy mode
+    key: a
+    command: copy-mode
+  - name: Detach
+    key: d
+    command: detach-client
+  - name: Last window
+    key: tab
+    command: last-window
+  - name: Last pane
+    key: "`"
+    command: last-pane
+  - separator: true
+
+  # ── windows ──────────────────────────────────────────────────────
+  - name: +Windows
+    key: w
+    menu:
+      - name: New (current path, prompt name)
+        key: c
+        command: new-window -c '#{pane_current_path}' \; command-prompt -p "window name:" "rename-window '%%'"
+      - name: Choose
+        key: w
+        command: choose-tree -wZ
+      - name: Move (renumber)
+        key: m
+        command: move-window
+      - name: Next
+        key: n
+        command: next-window
+      - name: Previous
+        key: p
+        command: previous-window
+      - separator: true
+      - name: Rename
+        key: R
+        command: command-prompt -I "#W" "rename-window -- '%%'"
+      - name: Kill
+        key: X
+        command: 'confirm -p "Kill window #W? (y/n)" kill-window'
+
+  # ── panes ────────────────────────────────────────────────────────
+  - name: +Panes
+    key: p
+    menu:
+      - name: Left
+        key: h
+        command: select-pane -L
+      - name: Down
+        key: j
+        command: select-pane -D
+      - name: Up
+        key: k
+        command: select-pane -U
+      - name: Right
+        key: l
+        command: select-pane -R
+      - separator: true
+      - name: Resize left
+        key: H
+        command: resize-pane -L 1
+        transient: true
+      - name: Resize down
+        key: J
+        command: resize-pane -D 1
+        transient: true
+      - name: Resize up
+        key: K
+        command: resize-pane -U 1
+        transient: true
+      - name: Resize right
+        key: L
+        command: resize-pane -R 1
+        transient: true
+      - separator: true
+      - name: Split vertical (s)
+        key: s
+        command: split-window -v -c '#{pane_current_path}'
+      - name: Split horizontal (v)
+        key: v
+        command: split-window -h -c '#{pane_current_path}'
+      - name: Zoom
+        key: z
+        command: resize-pane -Z
+      - name: Break to new window
+        key: "!"
+        command: break-pane
+      - name: Kill
+        key: X
+        command: 'confirm -p "Kill pane? (y/n)" kill-pane'
+
+  # ── sessions ─────────────────────────────────────────────────────
+  - name: +Sessions
+    key: s
+    menu:
+      - name: Choose
+        key: s
+        command: choose-tree -sZ
+      - name: New
+        key: c
+        command: new-session
+      - name: Rename
+        key: r
+        command: command-prompt -I "#S" "rename-session -- '%%'"
+      - name: Detach
+        key: d
+        command: detach-client
+
+  # ── buffers / clipboard ──────────────────────────────────────────
+  - name: +Buffers
+    key: b
+    menu:
+      - name: Copy buffer 0 → pbcopy
+        key: c
+        command: run "tmux save-buffer -b 0 - | pbcopy"
+      - name: List
+        key: l
+        command: list-buffers
+      - name: Choose
+        key: "#"
+        command: choose-buffer
+      - name: Paste
+        key: p
+        command: paste-buffer
+
+  - separator: true
+
+  # ── meta ─────────────────────────────────────────────────────────
+  - name: List all keys
+    key: "?"
+    command: list-keys
+  - name: Command prompt
+    key: ":"
+    command: command-prompt
+  - name: Show messages
+    key: "~"
+    command: show-messages

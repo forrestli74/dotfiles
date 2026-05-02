@@ -1,9 +1,15 @@
+---
+name: wf-design
+description: Use when writing a design doc for a feature — covers architecture, module boundaries, and library/API selection, produces `docs/[date]-[topic]/design.md` plus per-decision work logs at `[001]-subtopic.md`.
+---
+
 # Design
 
+- doc lives at `docs/[date]-[topic]/design.md`, work logs at `docs/[date]-[topic]/[001]-subtopic.md`
+- read existing docs and code before starting; pick up where prior work left off
+- start with `# [topic] Design Doc`
 - breakdown by sections
 - keep each point short
-- start with `# [topic] Design Doc`
-- /grill-me
 
 ## Architecture
 This applies to different scope. For example, breakdown to:
@@ -37,7 +43,10 @@ it's easy to do and relavant
 
 ## Work Log
 
-Each work log is docs/[date]-[topic]-design/[001]-subtopic.md
+Each work log is `docs/[date]-[topic]/[001]-subtopic.md`.
+
+Write the log as soon as its subtopic wraps up, before opening the next one.
+Do not defer logging to the end of the session.
 
 Example of work log:
 - key decision
@@ -90,9 +99,4 @@ Sections:
 - Definitions. Selective list of definition for type and functions with sample
   code.
 - ChangeList. Bulletin list of files with one line of what is in there and what to
-  change. 
-
-
-
-
-
+  change.

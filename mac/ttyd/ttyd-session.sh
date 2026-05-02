@@ -1,20 +1,38 @@
 #!/usr/bin/env bash
 set -e
 
+# launchd gives stripped PATH; add Homebrew so `tmux` resolves.
+# Dedicated socket `-L ttyd` isolates ttyd's tmux from interactive tmux.
 export PATH="/opt/homebrew/bin:$PATH"
 T="tmux -L ttyd"
 
-sess=$($T list-sessions -F '#{session_attached} #{session_activity} #{session_id}' 2>/dev/null \
-  | awk '$1==0' | sort -k2 -nr | awk 'NR==1 {print $3}')
-
-if [[ -n "$sess" ]]; then
-  exec $T attach -t "$sess"
+# 1. Named mode: caller specified a session name. Attach if it exists,
+#    else create with that name. Skip the picker entirely.
+if [[ -n "$1" ]]; then
+  if $T has-session -t "=$1" 2>/dev/null; then
+    exec $T attach -t "=$1"
+  fi
+  exec $T new-session -s "$1" -c "$HOME"
 fi
 
-# New session: start in the cwd of the most-recently-active pane,
-# falling back to $HOME if there are no live sessions or the path is gone.
-last_cwd=$($T list-panes -a -F '#{session_activity} #{pane_active} #{pane_current_path}' 2>/dev/null \
-  | awk '$2==1' | sort -k1 -nr | awk 'NR==1 {print $3}')
-[[ -d "$last_cwd" ]] || last_cwd="$HOME"
+# 2. Anonymous mode: show fzf picker. Each row is "<name>\t[N] <title>" —
+#    name (field 1) is the searchable handle, "[N] title" (field 2) is the
+#    visible label. `<new>` prepended for explicit opt-out.
+lines=$'<new>\t<new>\n'
+lines+=$($T list-sessions \
+  -F $'#{session_name}\t[#{session_attached}] #{T:set-titles-string}' 2>/dev/null)
 
-exec $T new-session -c "$last_cwd" \; set status off
+# `|| true` so set -e doesn't trip on user cancel (Esc → exit 130).
+chosen=$(echo "$lines" | fzf \
+  --delimiter=$'\t' --nth=1 --with-nth=2 \
+  --header='pick session' --prompt='session> ' || true)
+pick=${chosen%%$'\t'*}
+
+# 3. Existing session selected → attach.
+# error if sesson no longer exist
+if [[ -n $pick && $pick != '<new>' ]]; then
+  exec $T attach -t "=$pick"
+fi
+
+# 4. Fall through — create a fresh anonymous session (tmux auto-numbers).
+exec $T new-session -c "$HOME"
