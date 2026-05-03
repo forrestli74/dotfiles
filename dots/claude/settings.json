@@ -149,6 +149,7 @@
   "feedbackSurveyRate": 0,
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
   "editorMode": "vim",
   "skipAutoPermissionPrompt": true,
   "envFile": "~/.env",

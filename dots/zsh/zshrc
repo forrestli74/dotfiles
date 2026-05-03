@@ -127,6 +127,11 @@ if command -v starship &> /dev/null; then
   eval "$(starship init zsh)"
 fi
 
+# OSC 2 window title — show cwd (e.g. "~/git/src"). Tmux/terminal/ttyd
+# pick this up via #T in their title format.
+precmd()  { print -Pn '\e]2;%~\a' }
+preexec() { print -Pn '\e]2;$1 %~\a' }
+
 # ============================================================
 # Local overrides — machine-specific, last so they win
 # ============================================================

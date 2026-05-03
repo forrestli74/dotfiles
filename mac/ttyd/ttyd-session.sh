@@ -28,11 +28,16 @@ chosen=$(echo "$lines" | fzf \
   --header='pick session' --prompt='session> ' || true)
 pick=${chosen%%$'\t'*}
 
-# 3. Existing session selected → attach.
+# 3. fzf cancelled (Esc / Ctrl-C) → drop into a plain zsh, no tmux.
+if [[ -z $chosen ]]; then
+  exec "$SHELL" -l
+fi
+
+# 4. Existing session selected → attach.
 # error if sesson no longer exist
 if [[ -n $pick && $pick != '<new>' ]]; then
   exec $T attach -t "=$pick"
 fi
 
-# 4. Fall through — create a fresh anonymous session (tmux auto-numbers).
+# 5. Fall through — create a fresh anonymous session (tmux auto-numbers).
 exec $T new-session -c "$HOME"

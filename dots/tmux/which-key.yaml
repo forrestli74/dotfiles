@@ -1,10 +1,13 @@
 # tmux-which-key config — mirrors keybindings in tmux.conf.
-# Trigger: prefix (C-a) + Space.
+# Trigger: C-a (root, no prefix needed). Inside the popup, C-a sends a
+# literal Ctrl-A to the active pane (so readline beginning-of-line still
+# works via double-tap).
 # Symlinked to ~/.config/tmux/plugins/tmux-which-key/config.yaml by setup.sh.
 
 command_alias_start_index: 200
 keybindings:
   prefix_table: Space
+  root_table: C-a
 title:
   style: align=centre,bold
   prefix: tmux
@@ -14,6 +17,12 @@ position:
   y: P
 
 items:
+  # ── escape hatch: pass literal C-a through to readline ──────────
+  - name: Send C-a (readline beginning-of-line)
+    key: C-a
+    command: send-keys C-a
+  - separator: true
+
   # ── direct actions ───────────────────────────────────────────────
   - name: Reload config
     key: r

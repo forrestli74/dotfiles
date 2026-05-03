@@ -1,5 +1,5 @@
 ---
-name: wf-code
+name: code
 description: Use when implementing a feature via an orchestrator-driven subagent loop — coder edits, reviewer reviews, classifier triages each finding, repeating until two consecutive clean reviews. Work happens in `./.worktree/[topic]` on its own branch, never on main.
 ---
 

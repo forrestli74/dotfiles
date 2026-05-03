@@ -25,12 +25,18 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end
 vim.opt.rtp:prepend(lazypath)
-require("lazy").setup("plugins")
+-- Each file under lua/plugins/ returns one plugin spec.
+require("lazy").setup({ { import = "plugins" } })
 
 ----------------------------- OPTIONS -----------------------------
 local opt = vim.opt
 
 opt.cursorline = true
+
+-- OSC 2 window title — surfaces filename in tmux #T / browser tab.
+-- Format: "📝 <basename> <modified> <full path with ~>"
+opt.title = true
+opt.titlestring = "📝 %t %m %{expand('%:~')}"
 
 opt.tabstop = 2
 opt.shiftwidth = 2
@@ -85,6 +91,25 @@ map("n", "<leader>w", function()
   vim.wo.wrap = not vim.wo.wrap
   vim.notify("wrap: " .. (vim.wo.wrap and "on" or "off"), vim.log.levels.INFO)
 end, { desc = "toggle wrap" })
+
+local function git_relative_path()
+  local full = vim.fn.expand("%:p")
+  local root = vim.fs.root(0, ".git")
+  if not root then return full end
+  return vim.fs.relpath(root, full) or full
+end
+
+local function yank_to_clipboard(get)
+  return function()
+    local s = get()
+    vim.fn.setreg("+", s)
+    vim.notify(s)
+  end
+end
+map("n", "<leader>yf", yank_to_clipboard(git_relative_path), { desc = "yank git-relative path to +" })
+map("n", "<leader>yF", yank_to_clipboard(function() return git_relative_path() .. ":" .. vim.fn.line(".") end), { desc = "yank git-relative path:line to +" })
+map("n", "<leader>yp", yank_to_clipboard(function() return vim.fn.expand("%:p") end), { desc = "yank full path to +" })
+map("n", "<leader>yP", yank_to_clipboard(function() return vim.fn.expand("%:p") .. ":" .. vim.fn.line(".") end), { desc = "yank full path:line to +" })
 
 -- Tab: native keyword completion after a word char; literal tab otherwise.
 map("i", "<Tab>", function()

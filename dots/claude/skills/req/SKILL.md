@@ -1,5 +1,5 @@
 ---
-name: wf-req
+name: req
 description: Use when capturing requirements for a new feature or project with MVP scope — produces a requirements doc under `docs/[date]-[topic]/req.md` covering user flows, edge cases, follow-ups, and explicit non-goals.
 ---
 

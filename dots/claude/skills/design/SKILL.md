@@ -1,5 +1,5 @@
 ---
-name: wf-design
+name: design
 description: Use when writing a design doc for a feature — covers architecture, module boundaries, and library/API selection, produces `docs/[date]-[topic]/design.md` plus per-decision work logs at `[001]-subtopic.md`.
 ---
 
