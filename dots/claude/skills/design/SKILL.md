@@ -6,6 +6,7 @@ description: Use when writing a design doc for a feature — covers architecture
 # Design
 
 - doc lives at `docs/[date]-[topic]/design.md`, work logs at `docs/[date]-[topic]/[001]-subtopic.md`
+- design.md starts with YAML front matter: `---`, `status: draft | done | obsolete`, `---`
 - read existing docs and code before starting; pick up where prior work left off
 - start with `# [topic] Design Doc`
 - breakdown by sections

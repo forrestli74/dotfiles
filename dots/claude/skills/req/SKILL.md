@@ -6,6 +6,7 @@ description: Use when capturing requirements for a new feature or project with M
 # Requirement
 
 - doc lives at `docs/[date]-[topic]/req.md`
+- doc starts with YAML front matter: `---`, `status: draft | done | obsolete`, `---`
 - read existing docs and code before starting; pick up where prior work left off
 - only include bare minimum to be functional, MVP mentality
 - breakdown by sections

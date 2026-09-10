@@ -61,6 +61,7 @@ fi
 # Rust
 if [[ -d $HOME/.cargo/bin ]]; then
   export PATH="$HOME/.cargo/bin:$PATH"
+  export CARGO_TARGET_DIR="$HOME/.cargo/target"
 fi
 
 # CUDA (Linux with NVIDIA)

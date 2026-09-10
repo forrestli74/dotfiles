@@ -5,7 +5,7 @@
 
 Whenever talking to me or writing docs:
 
-- Summarize first, detail later
+- Answer directly first, no preamble. Details after.
 - Keep each point short and prefer bullet point style.
 - Prefer using concrete example with user flow to explain.
 - Prefer table if each cell is small

@@ -1,8 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment_env": "CLAUDE_ENV_FILE must be an ABSOLUTE path: env values are not shell-expanded, so $HOME is passed through literally and silently fails. See https://github.com/anthropics/claude-code/issues/4276 (open). Do not add keys to `env` for documentation -- every key there becomes a real environment variable.",
   "env": {
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
-    "DISABLE_TELEMETRY": "1"
+    "DISABLE_TELEMETRY": "1",
+    "CLAUDE_ENV_FILE": "/Users/jiaqili/.claude/env-setup.sh"
   },
   "permissions": {
     "allow": [
