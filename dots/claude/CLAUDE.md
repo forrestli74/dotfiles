@@ -11,5 +11,6 @@ Whenever talking to me or writing docs:
 - Prefer table if each cell is small
 - Prefer asciiflow style for simple diagram
 - If large diagram is needed, use mermaid
+- Assume I know little about the source code. Explain what and why, not code internals.
 
 
