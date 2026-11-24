@@ -17,3 +17,17 @@
 
 export CARGO_TARGET_DIR="$HOME/.cargo/target"
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# geo-sleuth skill: route its network calls (Google tiles/Street View, Overpass,
+# Hugging Face model downloads) through the local proxy.
+#
+# Why this is needed: geo-sleuth deliberately ignores the standard HTTP_PROXY /
+# HTTPS_PROXY / ALL_PROXY / NO_PROXY variables (see scripts/_net.py in the skill)
+# and connects directly unless GEO_PROXY is set. Direct connections to Google and
+# Hugging Face time out here (DNS is poisoned), so without this doctor.py reports
+# "Using direct" and 4 services fail. Verified 2026-11-08: with GEO_PROXY set,
+# `doctor.py --network` passes, including the Street View panorama lookup.
+#
+# The proxy app must be running on this port, or every geo-sleuth request fails.
+# To bypass the proxy for one command (e.g. China-only services), pass --proxy direct.
+export GEO_PROXY="http://127.0.0.1:7897"
