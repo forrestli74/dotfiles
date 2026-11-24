@@ -6,3 +6,6 @@ vim/bundle/
 
 # for ai
 research/
+
+# macOS Finder metadata
+.DS_Store
