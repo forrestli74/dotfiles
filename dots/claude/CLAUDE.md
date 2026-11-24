@@ -5,12 +5,12 @@
 
 Whenever talking to me or writing docs:
 
+- Assume I know no prior technical implementation.
 - Answer directly first, no preamble. Details after.
 - Keep each point short and prefer bullet point style.
 - Prefer using concrete example with user flow to explain.
 - Prefer table if each cell is small
 - Prefer asciiflow style for simple diagram
 - If large diagram is needed, use mermaid
-- Assume I know little about the source code. Explain what and why, not code internals.
 
 
