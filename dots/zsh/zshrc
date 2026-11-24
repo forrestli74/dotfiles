@@ -74,6 +74,12 @@ fi
 # pnpm (macOS — $HOME/Library only exists on mac)
 if [[ -d "$HOME/Library/pnpm" ]]; then
   export PNPM_HOME="$HOME/Library/pnpm"
+  # pnpm >= 10 links global bins into $PNPM_HOME/bin; older versions linked
+  # them straight into $PNPM_HOME. Keep both on PATH.
+  case ":$PATH:" in
+    *":$PNPM_HOME/bin:"*) ;;
+    *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+  esac
   case ":$PATH:" in
     *":$PNPM_HOME:"*) ;;
     *) export PATH="$PNPM_HOME:$PATH" ;;
